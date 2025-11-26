@@ -8,42 +8,48 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 10%;
 
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 10%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
 
-    --primary: 189 94% 43%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 280 100% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 160 100% 50%;
+    --secondary-foreground: 240 10% 10%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
 
-    --accent: 14 91% 62%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 320 100% 60%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217 33% 22%;
-    --input: 217 33% 22%;
-    --ring: 189 94% 43%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 280 100% 60%;
 
-    --radius: 0.75rem;
+    --radius: 1.5rem;
     
-    --gradient-primary: linear-gradient(135deg, hsl(189 94% 43%) 0%, hsl(220 94% 55%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(14 91% 62%) 0%, hsl(340 82% 62%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(222 47% 11%) 0%, hsl(217 33% 17%) 100%);
+    --neon-purple: 280 100% 60%;
+    --neon-cyan: 180 100% 50%;
+    --neon-pink: 320 100% 60%;
+    --neon-green: 160 100% 50%;
+    --neon-yellow: 60 100% 50%;
     
-    --shadow-glow: 0 0 40px hsl(189 94% 43% / 0.3);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --gradient-primary: linear-gradient(135deg, hsl(280 100% 60%) 0%, hsl(320 100% 60%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(160 100% 50%) 0%, hsl(180 100% 50%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(320 100% 60%) 0%, hsl(340 100% 60%) 100%);
+    
+    --shadow-neon: 0 0 30px hsl(280 100% 60% / 0.4);
+    --shadow-card: 0 4px 20px hsl(240 10% 10% / 0.08);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -83,11 +89,15 @@ All colors MUST be HSL.
 
 @layer utilities {
   .glass {
-    @apply bg-card/30 backdrop-blur-xl border border-border/50;
+    @apply bg-white/60 backdrop-blur-md border border-border;
   }
   
   .gradient-primary {
     background: var(--gradient-primary);
+  }
+  
+  .gradient-secondary {
+    background: var(--gradient-secondary);
   }
   
   .gradient-accent {
@@ -99,7 +109,11 @@ All colors MUST be HSL.
     background: var(--gradient-primary);
   }
   
-  .glow {
-    box-shadow: var(--shadow-glow);
+  .neon-glow {
+    box-shadow: var(--shadow-neon);
+  }
+  
+  .neon-border {
+    @apply border-2 border-primary;
   }
 }
