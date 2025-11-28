@@ -7,22 +7,21 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2024 Alex Johnson. Made with{" "}
-            <Heart className="inline h-4 w-4 text-accent" /> and React
+            © 2024 Garvit Chawla. Created and maintained by Garvit Chawla.
           </p>
 
           <div className="flex gap-3">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/garvit0080" target="_blank" rel="noopener noreferrer">
               <Button size="icon" variant="ghost" className="hover:text-primary rounded-full">
                 <Github className="h-5 w-5" />
               </Button>
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://linkedin.com/in/garvit-chawla" target="_blank" rel="noopener noreferrer">
               <Button size="icon" variant="ghost" className="hover:text-primary rounded-full">
                 <Linkedin className="h-5 w-5" />
               </Button>
             </a>
-            <a href="mailto:alex@example.com">
+            <a href="mailto:garvitchawla.office@gmail.com">
               <Button size="icon" variant="ghost" className="hover:text-primary rounded-full">
                 <Mail className="h-5 w-5" />
               </Button>

@@ -1,18 +1,22 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home, Briefcase, Clock, BookOpen, Mail, Images } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSound } from "@/hooks/useSound";
 
 export const Navigation = () => {
+  const { playSound } = useSound();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Projects", path: "/projects" },
-    { name: "Timeline", path: "/timeline" },
-    { name: "Poetry", path: "/poetry" },
+    { name: "Home", path: "/", icon: Home },
+    { name: "Projects", path: "/projects", icon: Briefcase },
+    { name: "Gallery", path: "/gallery", icon: Images },
+    { name: "Timeline", path: "/timeline", icon: Clock },
+    { name: "Poetry", path: "/poetry", icon: BookOpen },
+    { name: "Contact", path: "/contact", icon: Mail },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -22,25 +26,26 @@ export const Navigation = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="sticky top-4 z-50 mx-4 md:mx-8"
+        className="sticky top-3 md:top-4 z-50 mx-3 md:mx-8"
       >
-        <div className="glass rounded-3xl shadow-lg border-2 border-white/20">
-          <div className="container mx-auto px-6">
-            <div className="flex items-center justify-between h-16">
+        <div className="glass rounded-full shadow-lg border border-white/20 backdrop-blur-sm">
+          <div className="container mx-auto px-3 md:px-6">
+            <div className={`flex items-center justify-between ${location.pathname === "/" ? "h-auto md:h-14 py-2 md:py-0" : "h-12 md:h-14"}`}>
               <Link
                 to="/"
-                className="text-2xl font-bold text-gradient"
+                className="text-base md:text-xl font-bold flex-shrink-0 hover:opacity-80 transition-opacity"
               >
-                AJ
+                <span className="inline-block text-gradient">garvit.web</span>
               </Link>
 
               {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center gap-8">
+              <div className="hidden md:flex items-center gap-6">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`font-medium transition-colors ${
+                    onClick={() => playSound('click')}
+                    className={`text-sm font-medium transition-colors px-2 py-1 ${
                       isActive(item.path)
                         ? "text-primary"
                         : "text-foreground/60 hover:text-primary"
@@ -49,58 +54,32 @@ export const Navigation = () => {
                     {item.name}
                   </Link>
                 ))}
-                <Button size="sm" className="gradient-primary text-white rounded-full">
-                  Contact
-                </Button>
               </div>
 
-              {/* Mobile Menu Button */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden rounded-full"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </Button>
+              {/* Mobile - Show all icons on all pages */}
+              <div className="md:hidden flex items-center gap-1">
+                {navItems.map((item) => {
+                  const IconComponent = item.icon;
+                  return (
+                    <Link key={item.name} to={item.path} onClick={() => playSound('click')}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className={`rounded-full h-8 w-8 ${
+                          isActive(item.path) ? "bg-primary/10 text-primary" : "hover:bg-muted/30"
+                        }`}
+                        title={item.name}
+                      >
+                        <IconComponent className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </motion.nav>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed top-24 left-4 right-4 z-40 md:hidden glass rounded-3xl p-6"
-        >
-          <div className="flex flex-col gap-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-lg font-semibold transition-colors ${
-                  isActive(item.path)
-                    ? "text-primary"
-                    : "text-foreground/60 hover:text-primary"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-            <Button className="gradient-primary text-white rounded-full">
-              Contact
-            </Button>
-          </div>
-        </motion.div>
-      )}
     </>
   );
 };

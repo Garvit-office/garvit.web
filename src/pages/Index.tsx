@@ -5,6 +5,8 @@ import Home from "./Home";
 import Projects from "./Projects";
 import Timeline from "./Timeline";
 import Poetry from "./Poetry";
+import Contact from "./Contact";
+import Gallery from "./Gallery";
 
 const Index = () => {
   return (
@@ -14,8 +16,10 @@ const Index = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/timeline" element={<Timeline />} />
           <Route path="/poetry" element={<Poetry />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
       <Footer />

@@ -10,31 +10,31 @@ import mobileProject from "@/assets/project-mobile.jpg";
 const Projects = () => {
   const projects = [
     {
-      title: "AI Chatbot",
-      category: "AI/ML",
+      title: "AI Personal Assistant",
+      category: "AI/Python",
       image: aiProject,
-      description: "Intelligent conversational AI assistant with natural language processing",
-      techStack: ["Python", "TensorFlow", "React"],
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com"
+      description: "Offline assistant using Vosk, Speech Recognition, and LLM. Supports automation tasks and local processing.",
+      techStack: ["Python", "Vosk", "LLM"],
+      liveUrl: "https://github.com/garvit0080",
+      githubUrl: "https://github.com/garvit0080"
     },
     {
-      title: "E-Commerce Platform",
-      category: "Web Dev",
+      title: "Flego - Travel Blogging Platform",
+      category: "MERN Stack",
       image: webProject,
-      description: "Full-featured online shopping experience with payment integration",
-      techStack: ["React", "Node.js", "MongoDB"],
+      description: "Full-featured travel blogging platform with authentication, user profiles, and image uploads.",
+      techStack: ["React", "Node.js", "Express", "MongoDB"],
       liveUrl: "https://example.com",
-      githubUrl: "https://github.com"
+      githubUrl: "https://github.com/garvit0080"
     },
     {
-      title: "Fitness App",
-      category: "Mobile",
+      title: "Lernuage - Language Learning App",
+      category: "Web Development",
       image: mobileProject,
-      description: "Track workouts and nutrition with AI-powered recommendations",
-      techStack: ["React Native", "Firebase"],
+      description: "Interactive language learning platform with vocabulary quizzes and structured learning modules.",
+      techStack: ["HTML", "CSS", "JavaScript"],
       liveUrl: "https://example.com",
-      githubUrl: "https://github.com"
+      githubUrl: "https://github.com/garvit0080"
     }
   ];
 
@@ -46,7 +46,7 @@ const Projects = () => {
           animate={{ opacity: 1, y: 0 }}
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center">
-            My <span className="text-gradient">Projects</span>
+            My <span className="inline-block text-gradient">Projects</span>
           </h1>
           
           <p className="text-muted-foreground text-center mb-12 text-lg max-w-2xl mx-auto">
