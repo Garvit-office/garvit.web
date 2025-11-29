@@ -16,11 +16,12 @@ const Contact = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,9 +29,11 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/send-email`, {
+      const response = await fetch("https://garvit-web-3.onrender.com/api/send-email", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
 
@@ -74,33 +77,65 @@ const Contact = () => {
   return (
     <div className="min-h-screen py-20 px-4">
       <div className="container mx-auto max-w-6xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center">
             Let's <span className="inline-block text-gradient">Connect</span>
           </h1>
+
           <p className="text-muted-foreground text-center mb-16 text-lg max-w-2xl mx-auto">
             Have a project in mind? Want to collaborate? Feel free to reach out!
           </p>
 
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+            >
               <Card className="glass p-8 rounded-3xl">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {["name", "email", "subject"].map((field) => (
-                    <div key={field}>
-                      <label className="block text-sm font-medium mb-2">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                      <input
-                        type={field === "email" ? "email" : "text"}
-                        name={field}
-                        value={formData[field as keyof typeof formData]}
-                        onChange={handleChange}
-                        required
-                        placeholder={`Your ${field}`}
-                        className="w-full px-4 py-3 rounded-2xl bg-muted/50 border border-border/50 focus:border-primary focus:outline-none transition"
-                      />
-                    </div>
-                  ))}
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Your name"
+                      className="w-full px-4 py-3 rounded-2xl bg-muted/50 border border-border/50 focus:border-primary focus:outline-none transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="your.email@example.com"
+                      className="w-full px-4 py-3 rounded-2xl bg-muted/50 border border-border/50 focus:border-primary focus:outline-none transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Subject</label>
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      placeholder="What's this about?"
+                      className="w-full px-4 py-3 rounded-2xl bg-muted/50 border border-border/50 focus:border-primary focus:outline-none transition"
+                    />
+                  </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">Message</label>
@@ -120,18 +155,31 @@ const Contact = () => {
                     disabled={isSubmitting}
                     className="w-full gradient-primary text-white rounded-full py-3 font-semibold hover:shadow-lg transition-all"
                   >
-                    {isSubmitting ? "Sending..." : <><Send className="mr-2 h-5 w-5" /> Send Message</>}
+                    {isSubmitting ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-5 w-5" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
               </Card>
             </motion.div>
 
             {/* Contact Info */}
-            <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="flex flex-col gap-6">
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-col gap-6"
+            >
               <div>
                 <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
                 <p className="text-muted-foreground mb-8">
-                  Whether you have a question, project proposal, or just want to say hi, I'd love to hear from you. Reach out using any of the methods below.
+                  Whether you have a question, project proposal, or just want to say hi, 
+                  I'd love to hear from you. Reach out using any of the methods below.
                 </p>
               </div>
 
@@ -152,7 +200,9 @@ const Contact = () => {
                       </div>
                       <div>
                         <h4 className="font-semibold mb-1">{info.title}</h4>
-                        <p className="text-muted-foreground text-sm group-hover:text-primary transition-colors">{info.value}</p>
+                        <p className="text-muted-foreground text-sm group-hover:text-primary transition-colors">
+                          {info.value}
+                        </p>
                       </div>
                     </div>
                   </Card>
@@ -160,9 +210,12 @@ const Contact = () => {
               ))}
 
               <Card className="glass p-6 rounded-2xl border-2 border-accent/30 mt-4">
-                <Badge className="mb-4 gradient-primary text-white border-0 rounded-full">Response Time</Badge>
+                <Badge className="mb-4 gradient-primary text-white border-0 rounded-full">
+                  Response Time
+                </Badge>
                 <p className="text-sm text-muted-foreground">
-                  I typically respond to messages within 24 hours. For urgent matters, please call or email directly.
+                  I typically respond to messages within 24 hours. For urgent matters, 
+                  please call or email directly.
                 </p>
               </Card>
             </motion.div>
