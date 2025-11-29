@@ -23,7 +23,7 @@ interface Post {
   likes_by?: string[];
 }
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://garvit-web-3.onrender.com/api";
 
 const Home = () => {
   const { isAuthenticated, logout } = useAuth();

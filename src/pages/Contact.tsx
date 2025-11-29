@@ -29,7 +29,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:3001/api/send-email", {
+      const response = await fetch("https://garvit-web-3.onrender.com/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
