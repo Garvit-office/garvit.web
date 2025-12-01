@@ -5,17 +5,17 @@ import { Badge } from "@/components/ui/badge";
 
 const Timeline = () => {
   const achievements = [
-    {
-      year: "2024",
-      icon: Briefcase,
-      title: "Web Development Trainer",
-      description: "Trained students in HTML, CSS, JS, React, Node.js, MongoDB at MJ Marketing",
-      category: "Experience",
-      color: "from-blue-400 to-blue-600",
-      bgGradient: "bg-gradient-to-br from-blue-100 to-blue-50"
+     {
+      year: "2025",
+      icon: Lightbulb,
+      title: "Innovation Ambassador",
+      description: "Supported project development and conducted innovation workshops at Chitkara University",
+      category: "Leadership",
+      color: "from-yellow-400 to-yellow-600",
+      bgGradient: "bg-gradient-to-br from-yellow-100 to-yellow-50"
     },
-    {
-      year: "2024",
+      {
+      year: "2024-25",
       icon: Target,
       title: "Client Relations Specialist",
       description: "Managed communication and requirement gathering at Studio C.O.I.N",
@@ -25,15 +25,16 @@ const Timeline = () => {
     },
     {
       year: "2024",
-      icon: Award,
-      title: "Agile and Scrum Certified",
-      description: "Completed Agile and Scrum training with sprint planning and backlog management skills",
-      category: "Certification",
-      color: "from-green-400 to-green-600",
-      bgGradient: "bg-gradient-to-br from-green-100 to-green-50"
+      icon: Briefcase,
+      title: "Web Development Trainer",
+      description: "Trained students in HTML, CSS, JS, React, Node.js, MongoDB at MJ Marketing",
+      category: "Experience",
+      color: "from-blue-400 to-blue-600",
+      bgGradient: "bg-gradient-to-br from-blue-100 to-blue-50"
     },
+  
     {
-      year: "2023",
+      year: "2024-2025",
       icon: Users,
       title: "President - Design Thinking Society",
       description: "Led design innovation activities and guided students in prototyping",
@@ -41,15 +42,7 @@ const Timeline = () => {
       color: "from-pink-400 to-pink-600",
       bgGradient: "bg-gradient-to-br from-pink-100 to-pink-50"
     },
-    {
-      year: "2023",
-      icon: Lightbulb,
-      title: "Innovation Ambassador",
-      description: "Supported project development and conducted innovation workshops at Chitkara University",
-      category: "Leadership",
-      color: "from-yellow-400 to-yellow-600",
-      bgGradient: "bg-gradient-to-br from-yellow-100 to-yellow-50"
-    },
+   
     {
       year: "2023",
       icon: GraduationCap,
