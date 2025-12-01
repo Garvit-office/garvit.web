@@ -8,7 +8,8 @@ import path from 'path';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// ------------------- CORS FIX -------------------
 const allowedOrigins = [
   "https://garvit-web-jhiz.vercel.app",
   "http://localhost:3000"
@@ -20,6 +21,7 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.error("❌ Blocked by CORS:", origin);
         callback(new Error("Not allowed by CORS: " + origin));
       }
     },
@@ -29,470 +31,331 @@ app.use(
   })
 );
 
+// Body parser
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }));
 
-// Posts storage file
+// ------------------- File Paths -------------------
 const postsFile = path.join(process.cwd(), 'posts.json');
-
-// Poems storage file
 const poemsFile = path.join(process.cwd(), 'poems.json');
 
-// Load posts from file
-const loadPosts = () => {
+// ------------------- File Helpers -------------------
+const loadFile = (file) => {
   try {
-    if (fs.existsSync(postsFile)) {
-      return JSON.parse(fs.readFileSync(postsFile, 'utf-8'));
-    }
-  } catch (error) {
-    console.error('Error loading posts:', error);
-  }
+    if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, 'utf-8'));
+  } catch (e) { console.error("Error loading:", e); }
   return [];
 };
-
-// Save posts to file
-const savePosts = (posts) => {
+const saveFile = (file, data) => {
   try {
-    fs.writeFileSync(postsFile, JSON.stringify(posts, null, 2), 'utf-8');
-  } catch (error) {
-    console.error('Error saving posts:', error);
-  }
+    fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (e) { console.error("Error saving:", e); }
 };
 
-// Load poems from file
-const loadPoems = () => {
-  try {
-    if (fs.existsSync(poemsFile)) {
-      return JSON.parse(fs.readFileSync(poemsFile, 'utf-8'));
-    }
-  } catch (error) {
-    console.error('Error loading poems:', error);
+// ------------------- Email Notifier -------------------
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER || 'garvitchawla.office@gmail.com',
+    pass: process.env.GMAIL_APP_PASSWORD
   }
-  return [];
-};
+});
 
-// Save poems to file
-const savePoems = (poems) => {
-  try {
-    fs.writeFileSync(poemsFile, JSON.stringify(poems, null, 2), 'utf-8');
-  } catch (error) {
-    console.error('Error saving poems:', error);
-  }
-};
-
-// Send notification email to admin
 const sendNotificationEmail = async (type, data) => {
   try {
-    let subject = '';
-    let html = '';
+    let subject = "";
+    let html = "";
 
     if (type === 'like') {
-      subject = `New Like on Your Post - ${data.visitorName}`;
+      subject = `New Like on Your Content - ${data.visitorName}`;
       html = `
-        <h2>Someone liked your post! 👍</h2>
+        <h2>Someone liked your content 👍</h2>
         <p><strong>Visitor:</strong> ${data.visitorName}</p>
-        <p><strong>Post:</strong> "${data.postContent.substring(0, 100)}..."</p>
+        <p><strong>Content:</strong> ${data.postContent}</p>
         <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
       `;
-    } else if (type === 'comment') {
-      subject = `New Comment on Your Post - ${data.visitorName}`;
+    }
+
+    if (type === 'comment') {
+      subject = `New Comment - ${data.visitorName}`;
       html = `
-        <h2>Someone commented on your post! 💬</h2>
+        <h2>New comment received 💬</h2>
         <p><strong>Visitor:</strong> ${data.visitorName}</p>
         <p><strong>Comment:</strong> ${data.commentText}</p>
-        <p><strong>Post:</strong> "${data.postContent.substring(0, 100)}..."</p>
+        <p><strong>Content:</strong> ${data.postContent}</p>
         <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
       `;
     }
 
     await transporter.sendMail({
-      from: process.env.GMAIL_USER || 'garvitchawla.office@gmail.com',
-      to: 'garvitchawla.office@gmail.com',
+      from: process.env.GMAIL_USER,
+      to: "garvitchawla.office@gmail.com",
       subject,
       html
     });
-  } catch (error) {
-    console.error('Error sending notification:', error);
+
+  } catch (err) {
+    console.error("Email error:", err);
   }
 };
 
-// Configure nodemailer with Gmail
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER || 'garvitchawla.office@gmail.com',
-    pass: process.env.GMAIL_APP_PASSWORD, // Use App Password, not regular password
-  },
-});
-
+// ------------------- Contact Form Email -------------------
 app.post('/api/send-email', async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
 
-    // Validate input
-    if (!name || !email || !subject || !message) {
-      return res.status(400).json({ success: false, message: 'All fields are required' });
-    }
+    if (!name || !email || !subject || !message)
+      return res.status(400).json({ success: false, message: "All fields required" });
 
-    const mailOptions = {
-      from: process.env.GMAIL_USER || 'garvitchawla.office@gmail.com',
-      to: 'garvitchawla.office@gmail.com',
+    await transporter.sendMail({
+      from: process.env.GMAIL_USER,
+      to: "garvitchawla.office@gmail.com",
       subject: `New Portfolio Contact: ${subject}`,
       html: `
-        <h2>New Contact Form Submission</h2>
+        <h2>Portfolio Contact Form</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-        <hr>
-        <p><em>Reply to: ${email}</em></p>
-      `,
-    };
+        <p>${message.replace(/\n/g, "<br>")}</p>
+      `
+    });
 
-    await transporter.sendMail(mailOptions);
-    res.json({ success: true, message: 'Email sent successfully!' });
-  } catch (error) {
-    console.error('Email send error:', error);
-    res.status(500).json({ success: false, message: 'Failed to send email', error: error.message });
+    res.json({ success: true, message: "Email sent!" });
+
+  } catch (err) {
+    console.error("Email error:", err);
+    res.status(500).json({ success: false, message: "Failed to send email" });
   }
 });
 
+// ------------------- HEALTH -------------------
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ status: "ok" });
 });
 
-// GET all posts
+// ------------------- POSTS API -------------------
 app.get('/api/posts', (req, res) => {
-  try {
-    const posts = loadPosts();
-    res.json({ success: true, posts });
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-    res.status(500).json({ success: false, message: 'Failed to fetch posts', error: error.message });
-  }
+  res.json({ success: true, posts: loadFile(postsFile) });
 });
 
-// POST create new post
 app.post('/api/posts', (req, res) => {
-  try {
-    const { content, images } = req.body;
+  const { content, images } = req.body;
 
-    if (!content && (!images || images.length === 0)) {
-      return res.status(400).json({ success: false, message: 'Post must have content or images' });
-    }
+  if (!content && (!images || images.length === 0))
+    return res.status(400).json({ success: false, message: "Post must have content or images" });
 
-    const posts = loadPosts();
-    const newPost = {
-      id: Date.now().toString(),
-      content: content || '',
-      images: images || [],
-      timestamp: new Date().toISOString(),
-      likes: 0,
-      comments: 0,
-      liked: false
-    };
+  const posts = loadFile(postsFile);
+  const newPost = {
+    id: Date.now().toString(),
+    content: content || "",
+    images: images || [],
+    timestamp: new Date().toISOString(),
+    likes: 0,
+    comments: 0,
+    liked: false,
+    comments_list: [],
+    likes_by: []
+  };
 
-    posts.unshift(newPost); // Add to beginning
-    savePosts(posts);
+  posts.unshift(newPost);
+  saveFile(postsFile, posts);
 
-    res.json({ success: true, post: newPost, message: 'Post created successfully!' });
-  } catch (error) {
-    console.error('Error creating post:', error);
-    res.status(500).json({ success: false, message: 'Failed to create post', error: error.message });
-  }
+  res.json({ success: true, post: newPost });
 });
 
-// PUT like/unlike post
 app.put('/api/posts/:id/like', (req, res) => {
-  try {
-    const { id } = req.params;
-    const posts = loadPosts();
-    const post = posts.find(p => p.id === id);
+  const posts = loadFile(postsFile);
+  const post = posts.find(p => p.id === req.params.id);
 
-    if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
-    }
+  if (!post) return res.status(404).json({ success: false, message: "Not found" });
 
-    post.liked = !post.liked;
-    post.likes = post.liked ? post.likes + 1 : post.likes - 1;
+  post.liked = !post.liked;
+  post.likes += post.liked ? 1 : -1;
 
-    savePosts(posts);
-    res.json({ success: true, post });
-  } catch (error) {
-    console.error('Error liking post:', error);
-    res.status(500).json({ success: false, message: 'Failed to like post', error: error.message });
-  }
+  saveFile(postsFile, posts);
+  res.json({ success: true, post });
 });
 
-// DELETE post
 app.delete('/api/posts/:id', (req, res) => {
-  try {
-    const { id } = req.params;
-    const posts = loadPosts();
-    const filteredPosts = posts.filter(p => p.id !== id);
+  const posts = loadFile(postsFile);
+  const newPosts = posts.filter(p => p.id !== req.params.id);
 
-    if (filteredPosts.length === posts.length) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
-    }
+  if (newPosts.length === posts.length)
+    return res.status(404).json({ success: false, message: "Post not found" });
 
-    savePosts(filteredPosts);
-    res.json({ success: true, message: 'Post deleted successfully!' });
-  } catch (error) {
-    console.error('Error deleting post:', error);
-    res.status(500).json({ success: false, message: 'Failed to delete post', error: error.message });
-  }
+  saveFile(postsFile, newPosts);
+  res.json({ success: true, message: "Deleted" });
 });
 
-// POST comment on post
+// Comment on post
 app.post('/api/posts/:id/comment', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { visitorName, commentText } = req.body;
+  const { visitorName, commentText } = req.body;
 
-    if (!visitorName || !commentText) {
-      return res.status(400).json({ success: false, message: 'Name and comment are required' });
-    }
+  if (!visitorName || !commentText)
+    return res.status(400).json({ success: false, message: "Missing fields" });
 
-    const posts = loadPosts();
-    const post = posts.find(p => p.id === id);
+  const posts = loadFile(postsFile);
+  const post = posts.find(p => p.id === req.params.id);
 
-    if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
-    }
+  if (!post) return res.status(404).json({ success: false, message: "Not found" });
 
-    // Initialize comments array if doesn't exist
-    if (!post.comments_list) {
-      post.comments_list = [];
-    }
+  const newComment = {
+    id: Date.now().toString(),
+    visitorName,
+    text: commentText,
+    timestamp: new Date().toISOString()
+  };
 
-    const newComment = {
-      id: Date.now().toString(),
+  post.comments_list.push(newComment);
+  post.comments = post.comments_list.length;
+
+  saveFile(postsFile, posts);
+
+  await sendNotificationEmail("comment", {
+    visitorName,
+    commentText,
+    postContent: post.content.substring(0, 100)
+  });
+
+  res.json({ success: true, comment: newComment });
+});
+
+// Visitor like
+app.put('/api/posts/:id/visitor-like', async (req, res) => {
+  const { visitorName } = req.body;
+
+  if (!visitorName)
+    return res.status(400).json({ success: false, message: "Name required" });
+
+  const posts = loadFile(postsFile);
+  const post = posts.find(p => p.id === req.params.id);
+
+  if (!post) return res.status(404).json({ success: false, message: "Not found" });
+
+  const alreadyLiked = post.likes_by.includes(visitorName);
+
+  if (alreadyLiked) {
+    post.likes_by = post.likes_by.filter(n => n !== visitorName);
+    post.likes--;
+  } else {
+    post.likes_by.push(visitorName);
+    post.likes++;
+    await sendNotificationEmail("like", {
       visitorName,
-      text: commentText,
-      timestamp: new Date().toISOString()
-    };
-
-    post.comments_list.push(newComment);
-    post.comments = post.comments_list.length;
-
-    savePosts(posts);
-
-    // Send notification to admin
-    await sendNotificationEmail('comment', {
-      visitorName,
-      commentText,
       postContent: post.content
     });
-
-    res.json({ success: true, comment: newComment, message: 'Comment posted successfully!' });
-  } catch (error) {
-    console.error('Error posting comment:', error);
-    res.status(500).json({ success: false, message: 'Failed to post comment', error: error.message });
   }
+
+  saveFile(postsFile, posts);
+  res.json({ success: true, likes: post.likes, liked: !alreadyLiked });
 });
 
-// PUT like on post
-app.put('/api/posts/:id/visitor-like', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { visitorName } = req.body;
-
-    if (!visitorName) {
-      return res.status(400).json({ success: false, message: 'Visitor name is required' });
-    }
-
-    const posts = loadPosts();
-    const post = posts.find(p => p.id === id);
-
-    if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
-    }
-
-    // Initialize likes_by array if doesn't exist
-    if (!post.likes_by) {
-      post.likes_by = [];
-    }
-
-    // Check if visitor already liked
-    const alreadyLiked = post.likes_by.includes(visitorName);
-
-    if (alreadyLiked) {
-      post.likes_by = post.likes_by.filter(name => name !== visitorName);
-      post.likes--;
-    } else {
-      post.likes_by.push(visitorName);
-      post.likes++;
-
-      // Send notification to admin
-      await sendNotificationEmail('like', {
-        visitorName,
-        postContent: post.content
-      });
-    }
-
-    savePosts(posts);
-    res.json({ success: true, likes: post.likes, liked: !alreadyLiked });
-  } catch (error) {
-    console.error('Error liking post:', error);
-    res.status(500).json({ success: false, message: 'Failed to like post', error: error.message });
-  }
-});
-
-// ========== POEMS ENDPOINTS ==========
-
-// GET all poems
+// ------------------- POEMS API -------------------
 app.get('/api/poems', (req, res) => {
-  try {
-    const poems = loadPoems();
-    res.json(poems);
-  } catch (error) {
-    console.error('Error fetching poems:', error);
-    res.status(500).json({ success: false, message: 'Failed to fetch poems' });
-  }
+  res.json(loadFile(poemsFile));
 });
 
-// POST new poem
 app.post('/api/poems', (req, res) => {
-  try {
-    const { title, category, content } = req.body;
+  const { title, category, content } = req.body;
 
-    if (!title || !category || !content) {
-      return res.status(400).json({ success: false, message: 'Title, category, and content are required' });
-    }
+  if (!title || !category || !content)
+    return res.status(400).json({ success: false, message: "Missing fields" });
 
-    const poems = loadPoems();
-    const newPoem = {
-      id: Date.now().toString(),
-      title,
-      category,
-      content,
-      timestamp: new Date().toISOString(),
-      likes: 0,
-      comments: 0,
-      comments_list: [],
-      likes_by: []
-    };
+  const poems = loadFile(poemsFile);
 
-    poems.unshift(newPoem);
-    savePoems(poems);
-    res.json({ success: true, poem: newPoem });
-  } catch (error) {
-    console.error('Error creating poem:', error);
-    res.status(500).json({ success: false, message: 'Failed to create poem', error: error.message });
-  }
+  const newPoem = {
+    id: Date.now().toString(),
+    title,
+    category,
+    content,
+    timestamp: new Date().toISOString(),
+    likes: 0,
+    comments: 0,
+    comments_list: [],
+    likes_by: []
+  };
+
+  poems.unshift(newPoem);
+  saveFile(poemsFile, poems);
+
+  res.json({ success: true, poem: newPoem });
 });
 
-// DELETE poem
 app.delete('/api/poems/:id', (req, res) => {
-  try {
-    const { id } = req.params;
-    const poems = loadPoems();
-    const filteredPoems = poems.filter(p => p.id !== id);
+  const poems = loadFile(poemsFile);
+  const newPoems = poems.filter(p => p.id !== req.params.id);
 
-    if (filteredPoems.length === poems.length) {
-      return res.status(404).json({ success: false, message: 'Poem not found' });
-    }
+  if (newPoems.length === poems.length)
+    return res.status(404).json({ success: false, message: "Not found" });
 
-    savePoems(filteredPoems);
-    res.json({ success: true, message: 'Poem deleted successfully!' });
-  } catch (error) {
-    console.error('Error deleting poem:', error);
-    res.status(500).json({ success: false, message: 'Failed to delete poem', error: error.message });
-  }
+  saveFile(poemsFile, newPoems);
+  res.json({ success: true, message: "Deleted" });
 });
 
-// POST comment on poem
 app.post('/api/poems/:id/comment', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { visitorName, commentText } = req.body;
+  const { visitorName, commentText } = req.body;
 
-    if (!visitorName || !commentText) {
-      return res.status(400).json({ success: false, message: 'Name and comment are required' });
-    }
+  if (!visitorName || !commentText)
+    return res.status(400).json({ success: false, message: "Missing" });
 
-    const poems = loadPoems();
-    const poem = poems.find(p => p.id === id);
+  const poems = loadFile(poemsFile);
+  const poem = poems.find(p => p.id === req.params.id);
 
-    if (!poem) {
-      return res.status(404).json({ success: false, message: 'Poem not found' });
-    }
+  if (!poem) return res.status(404).json({ success: false, message: "Not found" });
 
-    if (!poem.comments_list) {
-      poem.comments_list = [];
-    }
+  const newComment = {
+    id: Date.now().toString(),
+    visitorName,
+    text: commentText,
+    timestamp: new Date().toISOString()
+  };
 
-    const newComment = {
-      id: Date.now().toString(),
-      visitorName,
-      text: commentText,
-      timestamp: new Date().toISOString()
-    };
+  poem.comments_list.push(newComment);
+  poem.comments = poem.comments_list.length;
 
-    poem.comments_list.push(newComment);
-    poem.comments = poem.comments_list.length;
+  saveFile(poemsFile, poems);
 
-    savePoems(poems);
+  await sendNotificationEmail("comment", {
+    visitorName,
+    commentText,
+    postContent: poem.title
+  });
 
-    await sendNotificationEmail('comment', {
-      visitorName,
-      commentText,
-      postContent: poem.content.substring(0, 100)
-    });
-
-    res.json({ success: true, comment: newComment, message: 'Comment posted successfully!' });
-  } catch (error) {
-    console.error('Error posting comment:', error);
-    res.status(500).json({ success: false, message: 'Failed to post comment', error: error.message });
-  }
+  res.json({ success: true, comment: newComment });
 });
 
-// PUT like on poem
 app.put('/api/poems/:id/visitor-like', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { visitorName } = req.body;
+  const { visitorName } = req.body;
 
-    if (!visitorName) {
-      return res.status(400).json({ success: false, message: 'Visitor name is required' });
-    }
+  if (!visitorName)
+    return res.status(400).json({ success: false, message: "Name required" });
 
-    const poems = loadPoems();
-    const poem = poems.find(p => p.id === id);
+  const poems = loadFile(poemsFile);
+  const poem = poems.find(p => p.id === req.params.id);
 
-    if (!poem) {
-      return res.status(404).json({ success: false, message: 'Poem not found' });
-    }
+  if (!poem) return res.status(404).json({ success: false, message: "Not found" });
 
-    if (!poem.likes_by) {
-      poem.likes_by = [];
-    }
+  const alreadyLiked = poem.likes_by.includes(visitorName);
 
-    const alreadyLiked = poem.likes_by.includes(visitorName);
+  if (alreadyLiked) {
+    poem.likes_by = poem.likes_by.filter(n => n !== visitorName);
+    poem.likes--;
+  } else {
+    poem.likes_by.push(visitorName);
+    poem.likes++;
 
-    if (alreadyLiked) {
-      poem.likes_by = poem.likes_by.filter(name => name !== visitorName);
-      poem.likes--;
-    } else {
-      poem.likes_by.push(visitorName);
-      poem.likes++;
-
-      await sendNotificationEmail('like', {
-        visitorName,
-        postContent: poem.title
-      });
-    }
-
-    savePoems(poems);
-    res.json({ success: true, likes: poem.likes, liked: !alreadyLiked });
-  } catch (error) {
-    console.error('Error liking poem:', error);
-    res.status(500).json({ success: false, message: 'Failed to like poem', error: error.message });
+    await sendNotificationEmail("like", {
+      visitorName,
+      postContent: poem.title
+    });
   }
+
+  saveFile(poemsFile, poems);
+  res.json({ success: true, likes: poem.likes, liked: !alreadyLiked });
 });
 
+// ------------------- SERVER -------------------
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
