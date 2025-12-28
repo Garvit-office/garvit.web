@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 // ------------------- CORS FIX -------------------
 const allowedOrigins = [
   "https://garvit-web-jhiz.vercel.app",
+  "https://garvit-web-at6j.vercel.app",
   "http://localhost:3000",
   "http://localhost:8080",
   "http://localhost:8081",
