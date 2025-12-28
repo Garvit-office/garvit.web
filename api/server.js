@@ -1,3 +1,19 @@
+// MongoDB setup
+import { MongoClient } from 'mongodb';
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://garvitchawlaoffice_db_user:zhy3gnkrH6t4nexn@cluster0.7ol2xzl.mongodb.net/?appName=Cluster0';
+const client = new MongoClient(mongoUri);
+let db;
+client.connect()
+  .then(() => {
+    db = client.db('portfolio'); // Use 'portfolio' as the database name
+    console.log('✅ Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err);
+  });
+
+dotenv.config();
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
@@ -9,10 +25,18 @@ dotenv.config();
 
 const app = express();
 
+// Root route for health/info
+app.get('/', (req, res) => {
+  res.send('API server is running');
+});
+
 // ------------------- CORS FIX -------------------
 const allowedOrigins = [
   "https://garvit-web-jhiz.vercel.app",
-  "http://localhost:3000"
+  "http://localhost:3000",
+  "http://localhost:8080",
+  "http://localhost:8081",
+  "http://192.168.35.65:8081"
 ];
 
 app.use(
@@ -133,20 +157,22 @@ app.get('/api/health', (req, res) => {
   res.json({ status: "ok" });
 });
 
-// ------------------- POSTS API -------------------
-app.get('/api/posts', (req, res) => {
-  res.json({ success: true, posts: loadFile(postsFile) });
+// ------------------- POSTS API (MongoDB) -------------------
+app.get('/api/posts', async (req, res) => {
+  try {
+    const posts = await db.collection('posts').find({}).sort({ timestamp: -1 }).toArray();
+    res.json({ success: true, posts });
+  } catch (err) {
+    console.error('Error fetching posts:', err);
+    res.status(500).json({ success: false, message: 'Failed to fetch posts' });
+  }
 });
 
-app.post('/api/posts', (req, res) => {
+app.post('/api/posts', async (req, res) => {
   const { content, images } = req.body;
-
   if (!content && (!images || images.length === 0))
     return res.status(400).json({ success: false, message: "Post must have content or images" });
-
-  const posts = loadFile(postsFile);
   const newPost = {
-    id: Date.now().toString(),
     content: content || "",
     images: images || [],
     timestamp: new Date().toISOString(),
@@ -156,11 +182,14 @@ app.post('/api/posts', (req, res) => {
     comments_list: [],
     likes_by: []
   };
-
-  posts.unshift(newPost);
-  saveFile(postsFile, posts);
-
-  res.json({ success: true, post: newPost });
+  try {
+    const result = await db.collection('posts').insertOne(newPost);
+    newPost._id = result.insertedId;
+    res.json({ success: true, post: newPost });
+  } catch (err) {
+    console.error('Error creating post:', err);
+    res.status(500).json({ success: false, message: 'Failed to create post' });
+  }
 });
 
 app.put('/api/posts/:id/like', (req, res) => {
@@ -250,21 +279,22 @@ app.put('/api/posts/:id/visitor-like', async (req, res) => {
   res.json({ success: true, likes: post.likes, liked: !alreadyLiked });
 });
 
-// ------------------- POEMS API -------------------
-app.get('/api/poems', (req, res) => {
-  res.json(loadFile(poemsFile));
+// ------------------- POEMS API (MongoDB) -------------------
+app.get('/api/poems', async (req, res) => {
+  try {
+    const poems = await db.collection('poems').find({}).sort({ timestamp: -1 }).toArray();
+    res.json(poems);
+  } catch (err) {
+    console.error('Error fetching poems:', err);
+    res.status(500).json({ success: false, message: 'Failed to fetch poems' });
+  }
 });
 
-app.post('/api/poems', (req, res) => {
+app.post('/api/poems', async (req, res) => {
   const { title, category, content } = req.body;
-
   if (!title || !category || !content)
     return res.status(400).json({ success: false, message: "Missing fields" });
-
-  const poems = loadFile(poemsFile);
-
   const newPoem = {
-    id: Date.now().toString(),
     title,
     category,
     content,
@@ -274,84 +304,103 @@ app.post('/api/poems', (req, res) => {
     comments_list: [],
     likes_by: []
   };
-
-  poems.unshift(newPoem);
-  saveFile(poemsFile, poems);
-
-  res.json({ success: true, poem: newPoem });
+  try {
+    const result = await db.collection('poems').insertOne(newPoem);
+    newPoem._id = result.insertedId;
+    res.json({ success: true, poem: newPoem });
+  } catch (err) {
+    console.error('Error creating poem:', err);
+    res.status(500).json({ success: false, message: 'Failed to create poem' });
+  }
 });
 
-app.delete('/api/poems/:id', (req, res) => {
-  const poems = loadFile(poemsFile);
-  const newPoems = poems.filter(p => p.id !== req.params.id);
-
-  if (newPoems.length === poems.length)
-    return res.status(404).json({ success: false, message: "Not found" });
-
-  saveFile(poemsFile, newPoems);
-  res.json({ success: true, message: "Deleted" });
+// ------------------- VISITOR TRACKING (MongoDB) -------------------
+app.post('/api/visitor', async (req, res) => {
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const timestamp = new Date().toISOString();
+  try {
+    await db.collection('visitors').insertOne({ ip, timestamp });
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error logging visitor:', err);
+    res.status(500).json({ success: false });
+  }
 });
 
+// Delete poem (MongoDB)
+app.delete('/api/poems/:id', async (req, res) => {
+  try {
+    const result = await db.collection('poems').deleteOne({ _id: new require('mongodb').ObjectId(req.params.id) });
+    if (result.deletedCount === 0)
+      return res.status(404).json({ success: false, message: "Not found" });
+    res.json({ success: true, message: "Deleted" });
+  } catch (err) {
+    console.error('Error deleting poem:', err);
+    res.status(500).json({ success: false, message: 'Failed to delete poem' });
+  }
+});
+
+// Comment on poem (MongoDB)
 app.post('/api/poems/:id/comment', async (req, res) => {
   const { visitorName, commentText } = req.body;
-
   if (!visitorName || !commentText)
     return res.status(400).json({ success: false, message: "Missing" });
-
-  const poems = loadFile(poemsFile);
-  const poem = poems.find(p => p.id === req.params.id);
-
-  if (!poem) return res.status(404).json({ success: false, message: "Not found" });
-
   const newComment = {
-    id: Date.now().toString(),
     visitorName,
     text: commentText,
     timestamp: new Date().toISOString()
   };
-
-  poem.comments_list.push(newComment);
-  poem.comments = poem.comments_list.length;
-
-  saveFile(poemsFile, poems);
-
-  await sendNotificationEmail("comment", {
-    visitorName,
-    commentText,
-    postContent: poem.title
-  });
-
-  res.json({ success: true, comment: newComment });
+  try {
+    const result = await db.collection('poems').findOneAndUpdate(
+      { _id: new require('mongodb').ObjectId(req.params.id) },
+      { $push: { comments_list: newComment }, $inc: { comments: 1 } },
+      { returnDocument: 'after' }
+    );
+    if (!result.value) return res.status(404).json({ success: false, message: "Not found" });
+    await sendNotificationEmail("comment", {
+      visitorName,
+      commentText,
+      postContent: result.value.title
+    });
+    res.json({ success: true, comment: newComment });
+  } catch (err) {
+    console.error('Error commenting on poem:', err);
+    res.status(500).json({ success: false, message: 'Failed to comment' });
+  }
 });
 
+// Visitor like on poem (MongoDB)
 app.put('/api/poems/:id/visitor-like', async (req, res) => {
   const { visitorName } = req.body;
-
   if (!visitorName)
     return res.status(400).json({ success: false, message: "Name required" });
-
-  const poems = loadFile(poemsFile);
-  const poem = poems.find(p => p.id === req.params.id);
-
-  if (!poem) return res.status(404).json({ success: false, message: "Not found" });
-
-  const alreadyLiked = poem.likes_by.includes(visitorName);
-
-  if (alreadyLiked) {
-    poem.likes_by = poem.likes_by.filter(n => n !== visitorName);
-    poem.likes--;
-  } else {
-    poem.likes_by.push(visitorName);
-    poem.likes++;
-
-    await sendNotificationEmail("like", {
-      visitorName,
-      postContent: poem.title
-    });
+  try {
+    const poem = await db.collection('poems').findOne({ _id: new require('mongodb').ObjectId(req.params.id) });
+    if (!poem) return res.status(404).json({ success: false, message: "Not found" });
+    const alreadyLiked = poem.likes_by.includes(visitorName);
+    let update;
+    if (alreadyLiked) {
+      update = {
+        $pull: { likes_by: visitorName },
+        $inc: { likes: -1 }
+      };
+    } else {
+      update = {
+        $push: { likes_by: visitorName },
+        $inc: { likes: 1 }
+      };
+      await sendNotificationEmail("like", {
+        visitorName,
+        postContent: poem.title
+      });
+    }
+    await db.collection('poems').updateOne({ _id: new require('mongodb').ObjectId(req.params.id) }, update);
+    const updated = await db.collection('poems').findOne({ _id: new require('mongodb').ObjectId(req.params.id) });
+    res.json({ success: true, likes: updated.likes, liked: !alreadyLiked });
+  } catch (err) {
+    console.error('Error liking poem:', err);
+    res.status(500).json({ success: false, message: 'Failed to like' });
   }
-
-  saveFile(poemsFile, poems);
-  res.json({ success: true, likes: poem.likes, liked: !alreadyLiked });
 });
 
 // ------------------- SERVER -------------------

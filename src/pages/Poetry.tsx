@@ -20,7 +20,17 @@ interface Poem {
   likes_by?: string[];
 }
 
-const API_URL = "https://garvit-web-3.onrender.com/api";
+const API_URL = "http://localhost:3001/api";
+
+const getVisitorName = async () => {
+  try {
+    const response = await fetch('http://localhost:3001/api/ip');
+    const data = await response.json();
+    return `Visitor_${data.ip.split('.').slice(-2).join('_')}`;
+  } catch {
+    return `Visitor_${Math.random().toString(36).substring(7)}`;
+  }
+};
 
 const Poetry = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -344,9 +354,9 @@ I calculate success's cost.`,
                   {/* Like and Comment Section */}
                   <div className="flex justify-between text-muted-foreground border-t border-border/30 pt-3 md:pt-4 text-sm gap-2">
                     <button
-                      onClick={() => {
-                        const visitorName = prompt("Enter your name to like this poem:");
-                        if (visitorName) handleVisitorLike(poem.id, visitorName);
+                      onClick={async () => {
+                        const visitorName = await getVisitorName();
+                        handleVisitorLike(poem.id, visitorName);
                       }}
                       className="flex items-center gap-1 md:gap-2 hover:text-primary transition-colors group flex-1 justify-center"
                     >
@@ -354,11 +364,11 @@ I calculate success's cost.`,
                       <span className="text-xs md:text-sm">{poem.likes}</span>
                     </button>
                     <button
-                      onClick={() => {
-                        const visitorName = prompt("Enter your name to leave a comment:");
-                        if (visitorName) {
-                          const commentText = prompt("Your comment:");
-                          if (commentText) handleVisitorComment(poem.id, visitorName, commentText);
+                      onClick={async () => {
+                        const commentText = prompt("Your comment:");
+                        if (commentText) {
+                          const visitorName = await getVisitorName();
+                          handleVisitorComment(poem.id, visitorName, commentText);
                         }
                       }}
                       className="flex items-center gap-1 md:gap-2 hover:text-primary transition-colors group flex-1 justify-center"
@@ -391,7 +401,7 @@ I calculate success's cost.`,
             </Card>
           </motion.div>
 
-          <LoginModal isOpen={showLoginModal} onOpenChange={setShowLoginModal} />
+          <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
         </motion.div>
       </div>
     </div>

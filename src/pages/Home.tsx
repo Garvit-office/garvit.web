@@ -23,7 +23,18 @@ interface Post {
   likes_by?: string[];
 }
 
-const API_URL = "https://garvit-web-3.onrender.com/api";
+// Use Render backend in production, localhost in development
+const API_URL = "http://localhost:3001/api";
+
+const getVisitorName = async () => {
+  try {
+    const response = await fetch('http://localhost:3001/api/ip');
+    const data = await response.json();
+    return `Visitor_${data.ip.split('.').slice(-2).join('_')}`;
+  } catch {
+    return `Visitor_${Math.random().toString(36).substring(7)}`;
+  }
+};
 
 const Home = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -473,12 +484,12 @@ const Home = () => {
 
                     <div className="flex justify-between text-muted-foreground border-t border-border/30 pt-3 md:pt-4 text-sm gap-2">
                       <button
-                        onClick={() => {
+                        onClick={async () => {
                           if (isAuthenticated) {
                             handleLike(post.id);
                           } else {
-                            const visitorName = prompt("Enter your name to like this post:");
-                            if (visitorName) handleVisitorLike(post.id, visitorName);
+                            const visitorName = await getVisitorName();
+                            handleVisitorLike(post.id, visitorName);
                           }
                         }}
                         className={`flex items-center gap-1 md:gap-2 hover:text-primary transition-colors group flex-1 justify-center`}
@@ -487,11 +498,11 @@ const Home = () => {
                         <span className="text-xs md:text-sm">{post.likes}</span>
                       </button>
                       <button
-                        onClick={() => {
-                          const visitorName = prompt("Enter your name to leave a comment:");
-                          if (visitorName) {
-                            const commentText = prompt("Your comment:");
-                            if (commentText) handleVisitorComment(post.id, visitorName, commentText);
+                        onClick={async () => {
+                          const commentText = prompt("Your comment:");
+                          if (commentText) {
+                            const visitorName = await getVisitorName();
+                            handleVisitorComment(post.id, visitorName, commentText);
                           }
                         }}
                         className="flex items-center gap-1 md:gap-2 hover:text-primary transition-colors group flex-1 justify-center"
