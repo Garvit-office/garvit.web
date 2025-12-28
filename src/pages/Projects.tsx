@@ -15,8 +15,12 @@ const Projects = () => {
       image: aiProject,
       description: "Offline assistant using Vosk, Speech Recognition, and LLM. Supports automation tasks and local processing.",
       techStack: ["Python", "Vosk", "LLM"],
-      liveUrl: "http://localhost:3001/project/ai-personal-assistant",
-      githubUrl: "http://localhost:3001/github/ai-personal-assistant"
+      liveUrl: import.meta.env.PROD
+        ? "https://garvit-web4.onrender.com/project/ai-personal-assistant"
+        : "http://localhost:3001/project/ai-personal-assistant",
+      githubUrl: import.meta.env.PROD
+        ? "https://garvit-web4.onrender.com/github/ai-personal-assistant"
+        : "http://localhost:3001/github/ai-personal-assistant"
     },
     {
       title: "Flego - Travel Blogging Platform",
@@ -24,8 +28,12 @@ const Projects = () => {
       image: webProject,
       description: "Full-featured travel blogging platform with authentication, user profiles, and image uploads.",
       techStack: ["React", "Node.js", "Express", "MongoDB"],
-      liveUrl: "http://localhost:3001/project/flego",
-      githubUrl: "http://localhost:3001/github/flego"
+      liveUrl: import.meta.env.PROD
+        ? "https://garvit-web4.onrender.com/project/flego"
+        : "http://localhost:3001/project/flego",
+      githubUrl: import.meta.env.PROD
+        ? "https://garvit-web4.onrender.com/github/flego"
+        : "http://localhost:3001/github/flego"
     },
     {
       title: "Lernuage - Language Learning App",
@@ -33,8 +41,12 @@ const Projects = () => {
       image: mobileProject,
       description: "Interactive language learning platform with vocabulary quizzes and structured learning modules.",
       techStack: ["HTML", "CSS", "JavaScript"],
-      liveUrl: "http://localhost:3001/project/lernuage",
-      githubUrl: "http://localhost:3001/github/lernuage"
+      liveUrl: import.meta.env.PROD
+        ? "https://garvit-web4.onrender.com/project/lernuage"
+        : "http://localhost:3001/project/lernuage",
+      githubUrl: import.meta.env.PROD
+        ? "https://garvit-web4.onrender.com/github/lernuage"
+        : "http://localhost:3001/github/lernuage"
     }
   ];
 

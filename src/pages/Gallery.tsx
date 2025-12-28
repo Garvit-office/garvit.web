@@ -17,7 +17,9 @@ interface GalleryImage {
   rotation?: number;
 }
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = import.meta.env.PROD
+  ? "https://garvit-web4.onrender.com/api"
+  : "http://localhost:3001/api";
 
 const Gallery = () => {
   // Generate random rotation between -3 and 3 degrees

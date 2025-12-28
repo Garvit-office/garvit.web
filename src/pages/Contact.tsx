@@ -29,7 +29,18 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:3001/api/send-email", {
+      const response = await fetch(
+        import.meta.env.PROD
+          ? "https://garvit-web4.onrender.com/api/send-email"
+          : "http://localhost:3001/api/send-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +81,9 @@ const Contact = () => {
       icon: MapPin,
       title: "Location",
       value: "Sri Ganganagar, Rajasthan",
-      link: "http://localhost:3001/maps?q=Sri+Ganganagar,+Rajasthan",
+      link: import.meta.env.PROD
+        ? "https://garvit-web4.onrender.com/maps?q=Sri+Ganganagar,+Rajasthan"
+        : "http://localhost:3001/maps?q=Sri+Ganganagar,+Rajasthan",
     },
   ];
 

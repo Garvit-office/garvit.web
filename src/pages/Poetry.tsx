@@ -20,11 +20,17 @@ interface Poem {
   likes_by?: string[];
 }
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = import.meta.env.PROD
+  ? "https://garvit-web4.onrender.com/api"
+  : "http://localhost:3001/api";
 
 const getVisitorName = async () => {
   try {
-    const response = await fetch('http://localhost:3001/api/ip');
+    const response = await fetch(
+      import.meta.env.PROD
+        ? 'https://garvit-web4.onrender.com/api/ip'
+        : 'http://localhost:3001/api/ip'
+    );
     const data = await response.json();
     return `Visitor_${data.ip.split('.').slice(-2).join('_')}`;
   } catch {
