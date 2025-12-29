@@ -25,35 +25,7 @@ dotenv.config();
 
 const app = express();
 
-// Visitor like
-app.put('/api/posts/:id/visitor-like', async (req, res) => {
-  const { visitorName } = req.body;
-
-  if (!visitorName)
-    return res.status(400).json({ success: false, message: "Name required" });
-
-  const posts = loadFile(postsFile);
-  const post = posts.find(p => p.id === req.params.id);
-
-  if (!post) return res.status(404).json({ success: false, message: "Not found" });
-
-  const alreadyLiked = post.likes_by.includes(visitorName);
-
-  if (alreadyLiked) {
-    post.likes_by = post.likes_by.filter(n => n !== visitorName);
-    post.likes--;
-  } else {
-    post.likes_by.push(visitorName);
-    post.likes++;
-    await sendNotificationEmail("like", {
-      visitorName,
-      postContent: post.content
-    });
-  }
-
-  saveFile(postsFile, posts);
-  res.json({ success: true, likes: post.likes, liked: !alreadyLiked });
-});
+// ...existing code...
 
 // ------------------- POEMS API (MongoDB) -------------------
 app.get('/api/poems', async (req, res) => {
