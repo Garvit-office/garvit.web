@@ -16,10 +16,9 @@ dotenv.config();
 dotenv.config();
 import express from 'express';
 import cors from 'cors';
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
+import postsRouter from './routes/posts.js';
+import contactRouter from './routes/contact.js';
 
 dotenv.config();
 
@@ -59,6 +58,10 @@ app.use(
 // Body parser
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }));
+
+// Register modular routes
+app.use('/api/posts', postsRouter);
+app.use('/api/contact', contactRouter);
 
 // ------------------- File Paths -------------------
 const postsFile = path.join(process.cwd(), 'posts.json');
