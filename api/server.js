@@ -25,11 +25,6 @@ dotenv.config();
 
 const app = express();
 
-  });
-
-  res.json({ success: true, comment: newComment });
-});
-
 // Visitor like
 app.put('/api/posts/:id/visitor-like', async (req, res) => {
   const { visitorName } = req.body;
