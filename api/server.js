@@ -17,6 +17,7 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import postsRouter from './routes/posts.js';
 import contactRouter from './routes/contact.js';
 
@@ -67,94 +68,7 @@ app.use('/api/contact', contactRouter);
 const postsFile = path.join(process.cwd(), 'posts.json');
 const poemsFile = path.join(process.cwd(), 'poems.json');
 
-// ------------------- File Helpers -------------------
-const loadFile = (file) => {
-  try {
-    if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, 'utf-8'));
-  } catch (e) { console.error("Error loading:", e); }
-  return [];
-};
-const saveFile = (file, data) => {
-  try {
-    fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
-  } catch (e) { console.error("Error saving:", e); }
-};
-
-// ------------------- Email Notifier -------------------
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER || 'garvitchawla.office@gmail.com',
-    pass: process.env.GMAIL_APP_PASSWORD
-  }
-});
-
-const sendNotificationEmail = async (type, data) => {
-  try {
-    let subject = "";
-    let html = "";
-
-    if (type === 'like') {
-      subject = `New Like on Your Content - ${data.visitorName}`;
-      html = `
-        <h2>Someone liked your content 👍</h2>
-        <p><strong>Visitor:</strong> ${data.visitorName}</p>
-        <p><strong>Content:</strong> ${data.postContent}</p>
-        <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
-      `;
-    }
-
-    if (type === 'comment') {
-      subject = `New Comment - ${data.visitorName}`;
-      html = `
-        <h2>New comment received 💬</h2>
-        <p><strong>Visitor:</strong> ${data.visitorName}</p>
-        <p><strong>Comment:</strong> ${data.commentText}</p>
-        <p><strong>Content:</strong> ${data.postContent}</p>
-        <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
-      `;
-    }
-
-    await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: "garvitchawla.office@gmail.com",
-      subject,
-      html
-    });
-
-  } catch (err) {
-    console.error("Email error:", err);
-  }
-};
-
-// ------------------- Contact Form Email -------------------
-app.post('/api/send-email', async (req, res) => {
-  try {
-    const { name, email, subject, message } = req.body;
-
-    if (!name || !email || !subject || !message)
-      return res.status(400).json({ success: false, message: "All fields required" });
-
-    await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: "garvitchawla.office@gmail.com",
-      subject: `New Portfolio Contact: ${subject}`,
-      html: `
-        <h2>Portfolio Contact Form</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p>${message.replace(/\n/g, "<br>")}</p>
-      `
-    });
-
-    res.json({ success: true, message: "Email sent!" });
-
-  } catch (err) {
-    console.error("Email error:", err);
-    res.status(500).json({ success: false, message: "Failed to send email" });
-  }
-});
+// ...existing code...
 
 // ------------------- HEALTH -------------------
 app.get('/api/health', (req, res) => {
