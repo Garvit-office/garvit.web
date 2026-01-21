@@ -196,6 +196,16 @@ app.post('/api/visitor', async (req, res) => {
   }
 });
 
+app.get('/api/check-mongo', async (req, res) => {
+  try {
+    await client.db().command({ ping: 1 });
+    res.json({ success: true, message: 'MongoDB connection is working' });
+  } catch (err) {
+    console.error('MongoDB connection test failed:', err);
+    res.status(500).json({ success: false, message: 'MongoDB connection failed' });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
