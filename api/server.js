@@ -11,7 +11,41 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// Diagnostic startup log
+console.log('⏳ Starting API server (server.js) - pid:', process.pid);
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled rejection:', reason);
+});
+
+// Configure CORS dynamically via environment variable `ALLOWED_ORIGINS`.
+// Set ALLOWED_ORIGINS to a comma-separated list like:
+//   https://your-frontend.vercel.app,https://another.origin
+// If not set, defaults to allowing localhost dev ports and any origin (for public APIs).
+const allowedOriginsRaw = process.env.ALLOWED_ORIGINS || '';
+const allowedOrigins = allowedOriginsRaw
+  ? allowedOriginsRaw.split(',').map((s) => s.trim()).filter(Boolean)
+  : [
+      'http://localhost:5173', // Vite default
+      'http://localhost:3000',
+      'http://localhost:3001'
+    ];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin like curl or mobile apps
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error('CORS policy: Origin not allowed'), false);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  })
+);
 app.use(express.json({ limit: '16mb' }));
 app.use(express.urlencoded({ extended: true, limit: '16mb' }));
 
@@ -184,15 +218,20 @@ app.put('/api/poems/:id/visitor-like', async (req, res) => {
 });
 
 app.post('/api/visitor', async (req, res) => {
-  if (!ensureDbConnection(res)) return;
   const ip = getClientIp(req);
   const timestamp = new Date().toISOString();
+
+  if (!db) {
+    console.warn('Visitor ping received before MongoDB connected; skipping persistence.');
+    return res.json({ success: true, stored: false });
+  }
+
   try {
     await db.collection('visitors').insertOne({ ip, timestamp });
-    res.json({ success: true });
+    res.json({ success: true, stored: true });
   } catch (err) {
     console.error('Error logging visitor:', err);
-    res.status(500).json({ success: false });
+    res.json({ success: true, stored: false });
   }
 });
 
