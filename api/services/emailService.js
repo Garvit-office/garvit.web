@@ -1,9 +1,16 @@
 import nodemailer from 'nodemailer';
 
+const senderAddress = process.env.GMAIL_USER;
+const receiverAddress = process.env.RECEIVER_EMAIL || senderAddress;
+
+if (!senderAddress || !process.env.GMAIL_APP_PASSWORD) {
+  console.warn('Gmail credentials are not fully configured. Email delivery will fail until GMAIL_USER and GMAIL_APP_PASSWORD are set.');
+}
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.GMAIL_USER || 'garvitchawla.office@gmail.com',
+    user: senderAddress,
     pass: process.env.GMAIL_APP_PASSWORD
   }
 });
@@ -35,8 +42,8 @@ export const sendNotificationEmail = async (type, data) => {
     }
 
     await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: "garvitchawla.office@gmail.com",
+      from: senderAddress,
+      to: receiverAddress,
       subject,
       html
     });
@@ -50,8 +57,9 @@ export const sendContactEmail = async ({ name, email, subject, message }) => {
   if (!name || !email || !subject || !message)
     throw new Error("All fields required");
   await transporter.sendMail({
-    from: process.env.GMAIL_USER,
-    to: "garvitchawla.office@gmail.com",
+    from: senderAddress,
+    to: receiverAddress,
+    replyTo: email,
     subject: `New Portfolio Contact: ${subject}`,
     html: `
       <h2>Portfolio Contact Form</h2>

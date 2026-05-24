@@ -3,16 +3,17 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github } from "lucide-react";
-import aiProject from "@/assets/project-ai.jpg";
+import aiProject from "@/assets/IMG_5407.jpg";
 import webProject from "@/assets/project-web.jpg";
 import mobileProject from "@/assets/project-mobile.jpg";
+import projectBlogImg from "@/assets/image.png";
 
 const Projects = () => {
   const projects = [
     {
       title: "AI Personal Assistant",
       category: "AI/Python",
-      image: aiProject,
+      image: projectBlogImg,
       description: "Offline assistant using Vosk, Speech Recognition, and LLM. Supports automation tasks and local processing.",
       techStack: ["Python", "Vosk", "LLM"],
       liveUrl: import.meta.env.PROD

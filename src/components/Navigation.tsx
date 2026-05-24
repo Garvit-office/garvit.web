@@ -1,21 +1,20 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Menu, X, Home, Briefcase, Clock, BookOpen, Mail, Images } from "lucide-react";
+import { Home, Briefcase, Clock, Mail } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSound } from "@/hooks/useSound";
 
 export const Navigation = () => {
   const { playSound } = useSound();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },
     { name: "Projects", path: "/projects", icon: Briefcase },
-    { name: "Gallery", path: "/gallery", icon: Images },
+    
     { name: "Timeline", path: "/timeline", icon: Clock },
-    { name: "Poetry", path: "/poetry", icon: BookOpen },
+   
     { name: "Contact", path: "/contact", icon: Mail },
   ];
 

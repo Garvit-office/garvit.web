@@ -6,6 +6,10 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+const API_BASE_URL = import.meta.env.PROD
+  ? "https://garvit-web4.onrender.com"
+  : "http://localhost:3001";
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -29,18 +33,13 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(
-        import.meta.env.PROD
-          ? "https://garvit-web4.onrender.com/api/send-email"
-          : "http://localhost:3001/api/send-email",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/contact/send-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const result = await response.json();
 
@@ -75,9 +74,7 @@ const Contact = () => {
       icon: MapPin,
       title: "Location",
       value: "Sri Ganganagar, Rajasthan",
-      link: import.meta.env.PROD
-        ? "https://garvit-web4.onrender.com/maps?q=Sri+Ganganagar,+Rajasthan"
-        : "http://localhost:3001/maps?q=Sri+Ganganagar,+Rajasthan",
+      link: `${API_BASE_URL}/maps?q=Sri+Ganganagar,+Rajasthan`,
     },
   ];
 
@@ -93,7 +90,7 @@ const Contact = () => {
           </h1>
 
           <p className="text-muted-foreground text-center mb-16 text-lg max-w-2xl mx-auto">
-            Have a project in mind? Want to collaborate? Feel free to reach out!
+            Have a project in mind, a collaboration idea, or a role to discuss? Feel free to reach out.
           </p>
 
           <div className="grid md:grid-cols-2 gap-12">
@@ -185,8 +182,8 @@ const Contact = () => {
               <div>
                 <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
                 <p className="text-muted-foreground mb-8">
-                  Whether you have a question, project proposal, or just want to say hi, 
-                  I'd love to hear from you. Reach out using any of the methods below.
+                  I'm always open to new opportunities, project discussions, and meaningful collaborations.
+                  Reach out using any of the methods below.
                 </p>
               </div>
 
