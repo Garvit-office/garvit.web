@@ -59,7 +59,7 @@ const Home = () => {
                     <ArrowRight className="ml-2 h-4 md:h-5 w-4 md:w-5" />
                   </Button>
                 </Link>
-                <a href="/resume.html" download="Garvit_Chawla_Resume.html" className="w-full sm:w-auto">
+                <a href="/Garvit_Chawla-Software_Engineer.pdf" download="Garvit_Chawla-Software_Engineer.pdf" className="w-full sm:w-auto">
                   <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full border-2 text-sm md:text-base">
                     Download Resume
                     <Download className="ml-2 h-4 md:h-5 w-4 md:w-5" />
