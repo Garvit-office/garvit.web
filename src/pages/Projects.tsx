@@ -7,6 +7,7 @@ import aiProject from "@/assets/IMG_5407.jpg";
 import webProject from "@/assets/project-web.jpg";
 import mobileProject from "@/assets/project-mobile.jpg";
 import projectBlogImg from "@/assets/image.png";
+import cardImg from "@/assets/card.png";
 
 const Projects = () => {
   const projects = [
@@ -53,7 +54,7 @@ const Projects = () => {
     {
       title: "garvit.card",
       category: "Web / Personal Card",
-      image: webProject,
+      image: cardImg,
       description: "A lightweight personal card site showcasing contact info and quick links.",
       techStack: ["React", "Vercel"],
       liveUrl: "https://garvitchawla-card.vercel.app/",
