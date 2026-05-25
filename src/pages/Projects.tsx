@@ -49,6 +49,16 @@ const Projects = () => {
         ? "https://garvit-web4.onrender.com/github/lernuage"
         : "http://localhost:3001/github/lernuage"
     }
+    ,
+    {
+      title: "garvit.card",
+      category: "Web / Personal Card",
+      image: webProject,
+      description: "A lightweight personal card site showcasing contact info and quick links.",
+      techStack: ["React", "Vercel"],
+      liveUrl: "https://garvitchawla-card.vercel.app/",
+      githubUrl: "https://github.com/Garvit-office/garvitchawla.card"
+    }
   ];
 
   return (
@@ -102,14 +112,18 @@ const Projects = () => {
                     </div>
                     
                     <div className="flex gap-2 mt-auto">
-                      <Button size="sm" className="flex-1 gradient-primary text-white rounded-full">
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        Live
-                      </Button>
-                      <Button size="sm" variant="outline" className="flex-1 rounded-full">
-                        <Github className="h-4 w-4 mr-2" />
-                        Code
-                      </Button>
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                        <Button size="sm" className="w-full gradient-primary text-white rounded-full">
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Live
+                        </Button>
+                      </a>
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                        <Button size="sm" variant="outline" className="w-full rounded-full">
+                          <Github className="h-4 w-4 mr-2" />
+                          Code
+                        </Button>
+                      </a>
                     </div>
                   </div>
                 </Card>
