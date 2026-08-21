@@ -31,10 +31,10 @@ const Projects = () => {
       description: "Full-featured travel blogging platform with authentication, user profiles, and image uploads.",
       techStack: ["React", "Node.js", "Express", "MongoDB"],
       liveUrl: import.meta.env.PROD
-        ? "https://garvit-web4.onrender.com/project/flego"
-        : "http://localhost:3001/project/flego",
+        ? "https://flego.vercel.app/"
+        : "https://github.com/Garvit-office/Flego",
       githubUrl: import.meta.env.PROD
-        ? "https://garvit-web4.onrender.com/github/flego"
+        ? "https://github.com/Garvit-office/Flego"
         : "http://localhost:3001/github/flego"
     },
     {
