@@ -62,7 +62,7 @@ export const Navigation = () => {
                 {navItems.map((item) => {
                   const IconComponent = item.icon;
                   return (
-                    <Link key={item.name} to={item.path} onClick={() => playSound('click')}>
+                    <Link key={item.name} href={item.path} onClick={() => playSound('click')}>
                       <Button
                         variant="ghost"
                         size="icon"
