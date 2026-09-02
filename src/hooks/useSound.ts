@@ -1,10 +1,14 @@
 import { useCallback } from 'react';
 
+interface WindowWithAudioContext extends Window {
+  webkitAudioContext?: typeof AudioContext;
+}
+
 type SoundType = 'click' | 'success' | 'like' | 'comment' | 'hover' | 'notification';
 
 // Generate sounds using Web Audio API
 const generateSound = (type: SoundType) => {
-  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const audioContext = new (window.AudioContext || (window as WindowWithAudioContext).webkitAudioContext!)();
   const oscillator = audioContext.createOscillator();
   const gainNode = audioContext.createGain();
 

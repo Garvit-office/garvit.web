@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Typewriter } from "@/components/Typewriter";
 import FeedSection from "@/components/Feed/FeedSection";
 import { useState, useEffect } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/useAuth";
 
 const Home = () => {
   const { isAuthenticated, logout } = useAuth();

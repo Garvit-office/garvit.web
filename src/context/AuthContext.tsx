@@ -1,14 +1,7 @@
-import { createContext, useContext, useState, useEffect } from "react";
+"use client";
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  userEmail: string | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
-  isAdmin: () => boolean;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { useState, useEffect } from "react";
+import { AuthContext } from "./auth-context";
 
 const ADMIN_EMAIL = "garvitchawla.office@gmail.com";
 const ADMIN_PASSWORD = "Garvit@12345"; // You can change this
@@ -54,10 +47,3 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-  return context;
-};

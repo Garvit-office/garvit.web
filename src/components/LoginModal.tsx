@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { X } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/useAuth";
 import { toast } from "sonner";
 
 interface LoginModalProps {
