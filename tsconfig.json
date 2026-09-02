@@ -18,7 +18,6 @@
     "jsx": "preserve",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"

@@ -55,7 +55,7 @@ const Home = () => {
               </p>
               
               <div className="flex flex-wrap gap-3 md:gap-4 mb-6 md:mb-8">
-                <Link to="/projects" className="w-full sm:w-auto">
+                <Link href="/projects" className="w-full sm:w-auto">
                   <Button size="lg" className="w-full sm:w-auto gradient-primary text-white rounded-full neon-glow text-sm md:text-base">
                     View Projects
                     <ArrowRight className="ml-2 h-4 md:h-5 w-4 md:w-5" />

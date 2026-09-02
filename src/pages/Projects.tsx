@@ -8,6 +8,7 @@ import webProject from "@/assets/project-web.jpg";
 import mobileProject from "@/assets/project-mobile.jpg";
 import projectBlogImg from "@/assets/image.png";
 import cardImg from "@/assets/card.png";
+import Image from "next/image";
 
 const Projects = () => {
   const projects = [
@@ -95,11 +96,12 @@ const Projects = () => {
               >
                 <Card className="glass overflow-hidden h-full flex flex-col rounded-3xl hover:shadow-xl transition-all group">
                   <div className="relative overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-48 object-cover transition-transform group-hover:scale-110"
-                    />
+                    <Image
+    src={project.image}
+    alt={project.title}
+    fill
+    className="object-cover transition-transform group-hover:scale-110"
+  />
                   </div>
                   
                   <div className="p-6 flex flex-col flex-grow">
