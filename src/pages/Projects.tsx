@@ -12,6 +12,15 @@ import cardImg from "@/assets/card.png";
 const Projects = () => {
   const projects = [
     {
+      title: "Leo - Self-Learning AI Agent",
+      category: "AI / Full Stack",
+      image: aiProject,
+      description: "Self-learning personal AI assistant powered by LangGraph, Groq, and Mem0 for semantic long-term memory and contextual persistence.",
+      techStack: ["React", "Vite", "FastAPI", "LangGraph", "Mem0", "Groq"],
+      liveUrl: "https://self-learning-teal.vercel.app/",
+      githubUrl: "https://github.com/Garvit-office/self-learning"
+    },
+    {
       title: "AI Personal Assistant",
       category: "AI/Python",
       image: projectBlogImg,
@@ -49,8 +58,7 @@ const Projects = () => {
       githubUrl: import.meta.env.PROD
         ? "https://garvit-web4.onrender.com/github/lernuage"
         : "http://localhost:3001/github/lernuage"
-    }
-    ,
+    },
     {
       title: "garvit.card",
       category: "Web / Personal Card",
