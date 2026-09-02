@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "projectType": "webapp",
+  "assertions": [
+    {
+      "name": "typescript-compile",
+      "type": "command",
+      "command": "npx tsc --noEmit",
+      "expected": "0",
+      "timeout": 120000
+    },
+    {
+      "name": "next-production-build",
+      "type": "command",
+      "command": "npm run build",
+      "expected": "0",
+      "timeout": 120000
+    }
+  ]
+}

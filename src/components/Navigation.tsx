@@ -1,13 +1,15 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Home, Briefcase, Clock, Mail } from "lucide-react";
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSound } from "@/hooks/useSound";
 
 export const Navigation = () => {
   const { playSound } = useSound();
-  const location = useLocation();
+  const pathname = usePathname();
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },
@@ -18,7 +20,7 @@ export const Navigation = () => {
     { name: "Contact", path: "/contact", icon: Mail },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => pathname === path;
 
   return (
     <>
@@ -29,9 +31,9 @@ export const Navigation = () => {
       >
         <div className="glass rounded-full shadow-lg border border-white/20 backdrop-blur-sm">
           <div className="container mx-auto px-3 md:px-6">
-            <div className={`flex items-center justify-between ${location.pathname === "/" ? "h-auto md:h-14 py-2 md:py-0" : "h-12 md:h-14"}`}>
+            <div className={`flex items-center justify-between ${pathname === "/" ? "h-auto md:h-14 py-2 md:py-0" : "h-12 md:h-14"}`}>
               <Link
-                to="/"
+                href="/"
                 className="text-base md:text-xl font-bold flex-shrink-0 hover:opacity-80 transition-opacity"
               >
                 <span className="inline-block text-gradient">garvit.web</span>
@@ -42,7 +44,7 @@ export const Navigation = () => {
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
-                    to={item.path}
+                    href={item.path}
                     onClick={() => playSound('click')}
                     className={`text-sm font-medium transition-colors px-2 py-1 ${
                       isActive(item.path)

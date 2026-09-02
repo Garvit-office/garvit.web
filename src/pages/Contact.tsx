@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,8 +8,8 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? (
-  import.meta.env.PROD ? "https://garvit-web4.onrender.com" : "http://localhost:3001"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? (
+  process.env.NODE_ENV === "production" ? "https://garvit-web4.onrender.com" : "http://localhost:3001"
 );
 
 const Contact = () => {

@@ -1,9 +1,11 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail, ArrowRight, Code, Zap, Lightbulb, LogOut, Download } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Typewriter } from "@/components/Typewriter";
 import FeedSection from "@/components/Feed/FeedSection";
 import { useState, useEffect } from "react";

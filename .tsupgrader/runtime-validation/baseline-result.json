@@ -1,0 +1,38 @@
+{
+  "planHash": "f1044912c304d79bec0d9834aab669b17aa5c4d30567298ca3d3c3d0e335f13e",
+  "phase": "baseline",
+  "recordedAtUtc": "2026-09-02T12:22:55.2123085Z",
+  "retryCount": 3,
+  "resetBaseline": false,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 0,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "typescript-compile",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "\u003Cspawn error: An error occurred trying to start process \u0027npx tsc --noEmit\u0027 with working directory \u0027c:\\Users\\garvi\\OneDrive\\Desktop\\garvit.web\\garvit.web\u0027. The system cannot find the file specified.\u003E\n",
+        "durationMs": 8
+      },
+      {
+        "name": "next-production-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "\u003Cspawn error: An error occurred trying to start process \u0027npm run build\u0027 with working directory \u0027c:\\Users\\garvi\\OneDrive\\Desktop\\garvit.web\\garvit.web\u0027. The system cannot find the file specified.\u003E\n",
+        "durationMs": 8
+      }
+    ]
+  }
+}

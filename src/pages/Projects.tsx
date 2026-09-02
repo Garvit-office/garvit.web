@@ -26,10 +26,10 @@ const Projects = () => {
       image: projectBlogImg,
       description: "Offline assistant using Vosk, Speech Recognition, and LLM. Supports automation tasks and local processing.",
       techStack: ["Python", "Vosk", "LLM"],
-      liveUrl: import.meta.env.PROD
+      liveUrl: process.env.NODE_ENV === "production"
         ? "https://garvit-web4.onrender.com/project/ai-personal-assistant"
         : "http://localhost:3001/project/ai-personal-assistant",
-      githubUrl: import.meta.env.PROD
+      githubUrl: process.env.NODE_ENV === "production"
         ? "https://garvit-web4.onrender.com/github/ai-personal-assistant"
         : "http://localhost:3001/github/ai-personal-assistant"
     },
@@ -39,10 +39,10 @@ const Projects = () => {
       image: webProject,
       description: "Full-featured travel blogging platform with authentication, user profiles, and image uploads.",
       techStack: ["React", "Node.js", "Express", "MongoDB"],
-      liveUrl: import.meta.env.PROD
+      liveUrl: process.env.NODE_ENV === "production"
         ? "https://flego.vercel.app/"
         : "https://github.com/Garvit-office/Flego",
-      githubUrl: import.meta.env.PROD
+      githubUrl: process.env.NODE_ENV === "production"
         ? "https://github.com/Garvit-office/Flego"
         : "http://localhost:3001/github/flego"
     },
@@ -52,10 +52,10 @@ const Projects = () => {
       image: mobileProject,
       description: "Interactive language learning platform with vocabulary quizzes and structured learning modules.",
       techStack: ["HTML", "CSS", "JavaScript"],
-      liveUrl: import.meta.env.PROD
+      liveUrl: process.env.NODE_ENV === "production"
         ? "https://garvit-web4.onrender.com/project/lernuage"
         : "http://localhost:3001/project/lernuage",
-      githubUrl: import.meta.env.PROD
+      githubUrl: process.env.NODE_ENV === "production"
         ? "https://garvit-web4.onrender.com/github/lernuage"
         : "http://localhost:3001/github/lernuage"
     },
