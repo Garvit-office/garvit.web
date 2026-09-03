@@ -1,13 +1,12 @@
+import 'dotenv/config';
+
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
 import { MongoClient, ObjectId } from 'mongodb';
 
 import postsRouter from './routes/posts.js';
 import contactRouter from './routes/contact.js';
 import { sendNotificationEmail } from './services/emailService.js';
-
-dotenv.config();
 
 const app = express();
 
@@ -49,12 +48,16 @@ app.use(
 app.use(express.json({ limit: '16mb' }));
 app.use(express.urlencoded({ extended: true, limit: '16mb' }));
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://garvitchawlaoffice_db_user:zhy3gnkrH6t4nexn@cluster0.7ol2xzl.mongodb.net/?appName=Cluster0';
+const mongoUri = process.env.MONGODB_URI;
 const mongoDbName = process.env.MONGODB_DB || 'portfolio';
-const client = new MongoClient(mongoUri);
+const client = mongoUri ? new MongoClient(mongoUri) : null;
 let db;
 
 const connectToMongo = async () => {
+  if (!client) {
+    console.warn('MONGODB_URI is not configured; database features are disabled.');
+    return;
+  }
   try {
     await client.connect();
     db = client.db(mongoDbName);
@@ -87,6 +90,10 @@ const getClientIp = (req) => {
 
 app.use('/api/posts', postsRouter);
 app.use('/api/contact', contactRouter);
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', database: db ? 'connected' : 'disconnected' });
+});
 
 app.get('/api/ip', (req, res) => {
   res.json({ ip: getClientIp(req) });
@@ -236,6 +243,9 @@ app.post('/api/visitor', async (req, res) => {
 });
 
 app.get('/api/check-mongo', async (req, res) => {
+  if (!client) {
+    return res.status(503).json({ success: false, message: 'MONGODB_URI is not configured' });
+  }
   try {
     await client.db().command({ ping: 1 });
     res.json({ success: true, message: 'MongoDB connection is working' });

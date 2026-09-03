@@ -11,8 +11,9 @@
     "build:dev": "next build",
     "lint": "eslint .",
     "start:client": "next start",
+    "start:api": "npm --prefix api start",
     "postinstall": "cd api && npm install",
-    "start": "node api/server.js"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -4,8 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import trainerImg from "@/assets/c7a21274-86b5-4cf0-a5f6-b30ea22f87c0.jpg";
 import innovationImg from "@/assets/IMG_7308.jpg";
-import presidentImg from "@/assets/IMG_0740.JPG?url";
-import clientRelImg from "@/assets/122670330_4483454891729606_4957190552676086176_n.jpg?url";
+import presidentImg from "@/assets/IMG_0740.JPG";
+import clientRelImg from "@/assets/122670330_4483454891729606_4957190552676086176_n.jpg";
 import beChitkaraImg from "@/assets/download.png";
 
 const Timeline = () => {

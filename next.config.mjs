@@ -1,4 +1,5 @@
 const nextConfig = {
+  outputFileTracingRoot: process.cwd(),
   async rewrites() {
     return [
       {
