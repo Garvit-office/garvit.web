@@ -1,16 +1,18 @@
 import { motion } from "framer-motion";
-import { Trophy, Award, Code, Users, BookOpen, Sparkles, Star, Target, Zap, Briefcase, GraduationCap, Lightbulb } from "lucide-react";
+import { Users, Target, Briefcase, GraduationCap, Lightbulb } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import trainerImg from "@/assets/c7a21274-86b5-4cf0-a5f6-b30ea22f87c0.jpg";
 import innovationImg from "@/assets/IMG_7308.jpg";
-import presidentImg from "@/assets/IMG_0740.jpg";
 import clientRelImg from "@/assets/122670330_4483454891729606_4957190552676086176_n.jpg";
 import beChitkaraImg from "@/assets/download.png";
 
+// Replaced missing "@/assets/IMG_0740.jpg" with innovationImg until the asset is placed in src/assets
+const presidentImg = innovationImg;
+
 const Timeline = () => {
   const achievements = [
-     {
+    {
       year: "2025",
       icon: Lightbulb,
       title: "Innovation Ambassador",
@@ -20,12 +22,12 @@ const Timeline = () => {
       color: "from-yellow-400 to-yellow-600",
       bgGradient: "bg-gradient-to-br from-yellow-100 to-yellow-50"
     },
-      {
+    {
       year: "2024-25",
       icon: Target,
       title: "Client Relations Specialist",
-        description: "Managed communication and requirement gathering at Studio C.O.I.N",
-          image: clientRelImg,
+      description: "Managed communication and requirement gathering at Studio C.O.I.N",
+      image: clientRelImg,
       category: "Experience",
       color: "from-purple-400 to-purple-600",
       bgGradient: "bg-gradient-to-br from-purple-100 to-purple-50"
@@ -40,7 +42,6 @@ const Timeline = () => {
       color: "from-blue-400 to-blue-600",
       bgGradient: "bg-gradient-to-br from-blue-100 to-blue-50"
     },
-  
     {
       year: "2024-2025",
       icon: Users,
@@ -51,7 +52,6 @@ const Timeline = () => {
       color: "from-pink-400 to-pink-600",
       bgGradient: "bg-gradient-to-br from-pink-100 to-pink-50"
     },
-   
     {
       year: "2023",
       icon: GraduationCap,
@@ -115,25 +115,27 @@ const Timeline = () => {
                         )}
 
                         <div className={`${achievement.image ? 'w-full md:w-2/3' : 'w-full'}`}>
-                      {/* Icon circle with gradient background */}
-                      <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 -translate-x-20 md:-translate-x-1/2 w-16 h-16 bg-gradient-to-br glass border-4 border-white flex items-center justify-center rounded-full shadow-lg"
-                        style={{ backgroundImage: `linear-gradient(135deg, var(--tw-gradient-stops))`, backgroundPosition: '0% 0%' }}>
-                        <div className={`bg-gradient-to-br ${achievement.color} p-3 rounded-full`}>
-                          <achievement.icon className="h-7 w-7 text-white" />
-                        </div>
-                      </div>
-                      
-                      <Badge className="mb-3 gradient-accent text-white border-0 rounded-full">
-                        {achievement.year}
-                      </Badge>
-                      
-                      <h3 className="text-xl font-bold mb-2">{achievement.title}</h3>
-                      <p className="text-muted-foreground text-sm mb-3">
-                        {achievement.description}
-                      </p>
-                      <Badge variant="outline" className="text-xs rounded-full">
-                        {achievement.category}
-                      </Badge>
+                          {/* Icon circle with gradient background */}
+                          <div
+                            className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 -translate-x-20 md:-translate-x-1/2 w-16 h-16 bg-gradient-to-br glass border-4 border-white flex items-center justify-center rounded-full shadow-lg"
+                            style={{ backgroundImage: `linear-gradient(135deg, var(--tw-gradient-stops))`, backgroundPosition: '0% 0%' }}
+                          >
+                            <div className={`bg-gradient-to-br ${achievement.color} p-3 rounded-full`}>
+                              <achievement.icon className="h-7 w-7 text-white" />
+                            </div>
+                          </div>
+                          
+                          <Badge className="mb-3 gradient-accent text-white border-0 rounded-full">
+                            {achievement.year}
+                          </Badge>
+                          
+                          <h3 className="text-xl font-bold mb-2">{achievement.title}</h3>
+                          <p className="text-muted-foreground text-sm mb-3">
+                            {achievement.description}
+                          </p>
+                          <Badge variant="outline" className="text-xs rounded-full">
+                            {achievement.category}
+                          </Badge>
                         </div>
                       </div>
                     </div>
