@@ -4,29 +4,47 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, Linkedin, Mail, ArrowRight, Code, Zap, Lightbulb, LogOut, Download } from "lucide-react";
+import { 
+  Github, 
+  Linkedin, 
+  Mail, 
+  ArrowRight, 
+  Code, 
+  Zap, 
+  Lightbulb, 
+  LogOut, 
+  Download,
+  Terminal,
+  Cpu
+} from "lucide-react";
 import Link from "next/link";
 import { Typewriter } from "@/components/Typewriter";
 import FeedSection from "@/components/Feed/FeedSection";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/useAuth";
 
+const techSkills = [
+  "Next.js 15", "React 19", "FastAPI", "Python", "LangGraph", "Mem0", 
+  "Tailwind CSS", "Node.js", "MongoDB", "TypeScript", "Docker", "Vosk"
+];
+
 const Home = () => {
   const { isAuthenticated, logout } = useAuth();
   const [cgpa, setCgpa] = useState(8.78);
 
   // Projects count
-  const projectsCount = 3;
+  const projectsCount = 5;
 
-  // Save CGPA to localStorage whenever it changes
+  // Hydrate CGPA from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem("userCgpa");
     if (saved) {
       const parsed = Number.parseFloat(saved);
       if (Number.isFinite(parsed)) setCgpa(parsed);
     }
-  }, [cgpa]);
+  }, []);
 
+  // Save CGPA to localStorage when updated
   useEffect(() => {
     localStorage.setItem("userCgpa", cgpa.toString());
   }, [cgpa]);
@@ -37,15 +55,19 @@ const Home = () => {
       <section className="min-h-screen md:min-h-[70vh] flex items-center justify-center px-3 md:px-4 py-12 md:py-20 border-b border-border">
         <div className="container mx-auto w-full max-w-full md:max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-6 md:gap-12 items-start md:items-center">
+            
+            {/* Left Column */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               className="w-full"
             >
-              <Badge className="mb-3 md:mb-4 gradient-primary text-white border-0 rounded-full px-3 md:px-4 text-xs md:text-sm">
-                Open to Opportunities
-              </Badge>
+              <Link href="/contact" className="inline-block">
+                <Badge className="mb-3 md:mb-4 gradient-primary text-white border-0 rounded-full px-3 md:px-4 text-xs md:text-sm cursor-pointer transition-transform hover:scale-105 active:scale-95">
+                  Open to Opportunities
+                </Badge>
+              </Link>
               
               <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6 leading-tight">
                 Hi, I'm
@@ -75,74 +97,129 @@ const Home = () => {
               </div>
               
               <div className="flex gap-2 md:gap-3">
-                <a href="https://github.com/garvit0080" target="_blank" rel="noopener noreferrer">
-                  <Button size="icon" variant="outline" className="rounded-full h-10 w-10 md:h-12 md:w-12">
+                <a href="https://github.com/garvit0080" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+                  <Button size="icon" variant="outline" className="rounded-full h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-105">
                     <Github className="h-4 md:h-5 w-4 md:w-5" />
                   </Button>
                 </a>
-                <a href="https://linkedin.com/in/garvit-chawla" target="_blank" rel="noopener noreferrer">
-                  <Button size="icon" variant="outline" className="rounded-full h-10 w-10 md:h-12 md:w-12">
+                <a href="https://linkedin.com/in/garvit-chawla" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+                  <Button size="icon" variant="outline" className="rounded-full h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-105">
                     <Linkedin className="h-4 md:h-5 w-4 md:w-5" />
                   </Button>
                 </a>
-                <a href="mailto:garvitchawla.office@gmail.com">
-                  <Button size="icon" variant="outline" className="rounded-full h-10 w-10 md:h-12 md:w-12">
+                <a href="mailto:garvitchawla.office@gmail.com" aria-label="Send Email">
+                  <Button size="icon" variant="outline" className="rounded-full h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-105">
                     <Mail className="h-4 md:h-5 w-4 md:w-5" />
                   </Button>
                 </a>
               </div>
             </motion.div>
             
+            {/* Right Column */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="w-full"
             >
-              <div className="flex flex-col gap-3 md:gap-6">
-                {/* Card 1 - Development */}
-                <Card className="glass p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 border-accent/30 hover:border-accent/60 transition-all w-full cursor-pointer">
-                  <div className="flex items-start gap-3 md:gap-4">
-                    <div className="p-2 md:p-3 bg-gradient-to-br from-primary to-accent rounded-lg md:rounded-2xl flex-shrink-0">
-                      <Code className="h-5 md:h-6 w-5 md:w-6 text-white" />
+              <div className="flex flex-col gap-3 md:gap-4">
+                
+                {/* Card 1 - Development (Clickable) */}
+                <Link href="/projects" className="w-full block group">
+                  <Card className="glass p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 border-accent/30 group-hover:border-accent/80 transition-all w-full cursor-pointer group-hover:-translate-y-0.5">
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <div className="p-2 md:p-3 bg-gradient-to-br from-primary to-accent rounded-lg md:rounded-2xl shrink-0">
+                        <Code className="h-5 md:h-6 w-5 md:w-6 text-white" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-bold text-base md:text-lg mb-1 flex items-center justify-between">
+                          <span>Full Stack & AI/ML</span>
+                          <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                        </h3>
+                        <p className="text-xs md:text-sm text-muted-foreground">Building modern products and intelligent systems</p>
+                      </div>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-bold text-base md:text-lg mb-1">Full Stack & AI/ML</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground">Building modern products and intelligent systems</p>
-                    </div>
-                  </div>
-                </Card>
+                  </Card>
+                </Link>
 
-                {/* Card 2 - Innovation */}
-                <Card className="glass p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 border-accent/30 hover:border-accent/60 transition-all w-full cursor-pointer">
-                  <div className="flex items-start gap-3 md:gap-4">
-                    <div className="p-2 md:p-3 bg-gradient-to-br from-accent to-primary rounded-lg md:rounded-2xl flex-shrink-0">
-                      <Lightbulb className="h-5 md:h-6 w-5 md:w-6 text-white" />
+                {/* Card 2 - Innovation (Clickable) */}
+                <Link href="/timeline" className="w-full block group">
+                  <Card className="glass p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 border-accent/30 group-hover:border-accent/80 transition-all w-full cursor-pointer group-hover:-translate-y-0.5">
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <div className="p-2 md:p-3 bg-gradient-to-br from-accent to-primary rounded-lg md:rounded-2xl shrink-0">
+                        <Lightbulb className="h-5 md:h-6 w-5 md:w-6 text-white" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-bold text-base md:text-lg mb-1 flex items-center justify-between">
+                          <span>Problem Solver</span>
+                          <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                        </h3>
+                        <p className="text-xs md:text-sm text-muted-foreground">Turning ideas into practical, polished experiences</p>
+                      </div>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-bold text-base md:text-lg mb-1">Problem Solver</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground">Turning ideas into practical, polished experiences</p>
-                    </div>
-                  </div>
-                </Card>
+                  </Card>
+                </Link>
 
-                {/* Card 3 - Performance */}
-                <Card className="glass p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 border-accent/30 hover:border-accent/60 transition-all w-full cursor-pointer">
-                  <div className="flex items-start gap-3 md:gap-4">
-                    <div className="p-2 md:p-3 bg-gradient-to-br from-secondary to-accent rounded-lg md:rounded-2xl flex-shrink-0">
-                      <Zap className="h-5 md:h-6 w-5 md:w-6 text-white" />
+                {/* Card 3 - Performance (Clickable) */}
+                <Link href="/projects" className="w-full block group">
+                  <Card className="glass p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 border-accent/30 group-hover:border-accent/80 transition-all w-full cursor-pointer group-hover:-translate-y-0.5">
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <div className="p-2 md:p-3 bg-gradient-to-br from-secondary to-accent rounded-lg md:rounded-2xl shrink-0">
+                        <Zap className="h-5 md:h-6 w-5 md:w-6 text-white" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-bold text-base md:text-lg mb-1 flex items-center justify-between">
+                          <span>Scalable Systems</span>
+                          <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                        </h3>
+                        <p className="text-xs md:text-sm text-muted-foreground">Fast, clean, and maintainable builds</p>
+                      </div>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-bold text-base md:text-lg mb-1">Scalable Systems</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground">Fast, clean, and maintainable builds</p>
+                  </Card>
+                </Link>
+
+                {/* Telemetry Progress Terminal (Clickable to Timeline/GitHub) */}
+                <Link href="/timeline" className="w-full block group">
+                  <div className="rounded-2xl md:rounded-3xl border-2 border-accent/30 bg-muted/30 p-4 font-mono text-xs backdrop-blur-md transition-all group-hover:border-accent/70">
+                    <div className="flex items-center justify-between border-b border-border/60 pb-2 mb-2">
+                      <div className="flex items-center gap-2 text-foreground font-semibold">
+                        <Terminal className="h-3.5 w-3.5 text-primary" />
+                        <span>runtime.telemetry</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-[10px] text-muted-foreground">online</span>
+                      </div>
+                    </div>
+                    <div className="space-y-1 text-[11px] text-muted-foreground">
+                      <p><span className="text-foreground font-semibold">degree:</span> B.E. Computer Science (Chitkara Univ)</p>
+                      <p><span className="text-foreground font-semibold">active_research:</span> LangGraph Context Retention (Mem0)</p>
+                      <p><span className="text-foreground font-semibold">status:</span> Ready for Engineering Roles</p>
                     </div>
                   </div>
-                </Card>
+                </Link>
+
               </div>
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* Running Skill Section (Infinite Marquee) */}
+      <div className="relative py-4 border-b border-border/60 overflow-hidden bg-muted/10 backdrop-blur-xs">
+        <div className="flex w-max animate-marquee gap-3 whitespace-nowrap">
+          {[...techSkills, ...techSkills].map((tech, i) => (
+            <Link 
+              key={i} 
+              href="/projects" 
+              className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-background/60 px-4 py-1 text-xs font-mono font-medium text-muted-foreground hover:text-foreground hover:border-accent/70 transition-colors shadow-2xs"
+            >
+              <Cpu className="h-3 w-3 text-primary" />
+              {tech}
+            </Link>
+          ))}
+        </div>
+      </div>
 
       <FeedSection />
 
@@ -154,39 +231,42 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl md:text-5xl font-bold mb-6 md:mb-6 text-center">
+            <h2 className="text-2xl md:text-5xl font-bold mb-6 text-center">
               About <span className="inline-block text-gradient">Me</span>
             </h2>
             
             <Card className="glass p-4 md:p-8 rounded-2xl md:rounded-3xl">
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-4 md:mb-6">
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
                 I'm Garvit Chawla, a computer science student at Chitkara University focused on full stack development,
                 AI/ML, and building practical digital products.
               </p>
               
-              <div className="grid grid-cols-3 gap-2 md:gap-4">
-                {/* CGPA */}
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center p-3 md:p-4 bg-muted/30 rounded-xl md:rounded-2xl"
-                >
-                  <p className="text-xl md:text-3xl font-bold inline-block text-gradient mb-1 md:mb-2">
-                    {cgpa.toFixed(2)}
-                  </p>
-                  <p className="text-xs md:text-sm text-muted-foreground">CGPA</p>
-                </motion.div>
+              <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                {/* CGPA (Clickable to Timeline) */}
+                <Link href="/timeline" className="block">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="text-center p-3 md:p-4 bg-muted/30 rounded-xl md:rounded-2xl cursor-pointer hover:bg-muted/50 transition-colors"
+                  >
+                    <p className="text-xl md:text-3xl font-bold inline-block text-gradient mb-1 md:mb-2">
+                      {cgpa.toFixed(2)}
+                    </p>
+                    <p className="text-xs md:text-sm text-muted-foreground">CGPA</p>
+                  </motion.div>
+                </Link>
 
-                {/* Projects Count */}
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center p-3 md:p-4 bg-muted/30 rounded-xl md:rounded-2xl"
-                >
-                  <p className="text-xl md:text-3xl font-bold inline-block text-gradient mb-1 md:mb-2">
-                    {projectsCount}
-                  </p>
-                  <p className="text-xs md:text-sm text-muted-foreground">Projects</p>
-                </motion.div>
-
+                {/* Projects Count (Clickable to Projects) */}
+                <Link href="/projects" className="block">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="text-center p-3 md:p-4 bg-muted/30 rounded-xl md:rounded-2xl cursor-pointer hover:bg-muted/50 transition-colors"
+                  >
+                    <p className="text-xl md:text-3xl font-bold inline-block text-gradient mb-1 md:mb-2">
+                      {projectsCount}
+                    </p>
+                    <p className="text-xs md:text-sm text-muted-foreground">Projects</p>
+                  </motion.div>
+                </Link>
               </div>
             </Card>
           </motion.div>
