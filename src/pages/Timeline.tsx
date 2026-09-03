@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import trainerImg from "@/assets/c7a21274-86b5-4cf0-a5f6-b30ea22f87c0.jpg";
 import innovationImg from "@/assets/IMG_7308.jpg";
-import presidentImg from "@/assets/IMG_0740.JPG";
+import presidentImg from "@/assets/IMG_0740.jpg";
 import clientRelImg from "@/assets/122670330_4483454891729606_4957190552676086176_n.jpg";
 import beChitkaraImg from "@/assets/download.png";
 
@@ -107,7 +107,7 @@ const Timeline = () => {
                         {achievement.image && (
                           <div className="w-full md:w-1/3 flex-shrink-0">
                             <img
-                              src={achievement.image}
+                              src={typeof achievement.image === "string" ? achievement.image : achievement.image.src}
                               alt={achievement.title}
                               className="w-full h-40 md:h-32 lg:h-40 object-cover rounded-xl border border-white/10 dark:border-white/6"
                             />
