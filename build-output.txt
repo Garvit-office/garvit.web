@@ -1,0 +1,36 @@
+
+> garvit-web@0.0.0 build
+> next build
+
+   ▲ Next.js 15.5.25
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/contact/page.tsx
+Module not found: Can't resolve '@/pages/Contact'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/not-found.tsx
+Module not found: Can't resolve '@/pages/NotFound'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/projects/page.tsx
+Module not found: Can't resolve '@/pages/Projects'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/timeline/page.tsx
+Module not found: Can't resolve '@/pages/Timeline'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/page.tsx
+Module not found: Can't resolve '@/pages/Home'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors

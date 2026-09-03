@@ -13,15 +13,20 @@ import { useAuth } from "@/context/useAuth";
 
 const Home = () => {
   const { isAuthenticated, logout } = useAuth();
-  const [cgpa, setCgpa] = useState(() => {
-    const saved = localStorage.getItem("userCgpa");
-    return saved ? parseFloat(saved) : 8.78;
-  });
+  const [cgpa, setCgpa] = useState(8.78);
 
   // Projects count
   const projectsCount = 3;
 
   // Save CGPA to localStorage whenever it changes
+  useEffect(() => {
+    const saved = localStorage.getItem("userCgpa");
+    if (saved) {
+      const parsed = Number.parseFloat(saved);
+      if (Number.isFinite(parsed)) setCgpa(parsed);
+    }
+  }, [cgpa]);
+
   useEffect(() => {
     localStorage.setItem("userCgpa", cgpa.toString());
   }, [cgpa]);

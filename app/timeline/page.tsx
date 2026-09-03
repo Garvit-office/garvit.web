@@ -1,6 +1,6 @@
 "use client";
 
-import Timeline from "@/pages/Timeline";
+import Timeline from "@/views/Timeline";
 
 export default function Page() {
   return <Timeline />;
