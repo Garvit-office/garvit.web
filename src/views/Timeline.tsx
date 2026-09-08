@@ -148,7 +148,7 @@ const Timeline = () => {
                   >
                     <div className="relative h-52 overflow-hidden">
                       <img
-                        src={achievement.image}
+                        src={achievement.image.src}
                         alt={achievement.title}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                       />
