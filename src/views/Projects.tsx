@@ -16,13 +16,14 @@ import mobileProject from "@/assets/project-mobile.jpg";
 import projectBlogImg from "@/assets/image.png";
 import cardImg from "@/assets/card.png";
 import Image from "next/image";
+import granny from "@assets//IMG_2831.png";
 
 const Projects = () => {
   const projects = [
     {
       title: "NutriAI",
       category: "AI / HealthTech / Mobile",
-      image: mobileProject,
+      image: granny,
       featured: true,
       description:
         "AI-powered preventive health and nutrition platform combining personalized nutrition intelligence, food recognition, health tracking, food compatibility, medical insights, offline-first persistence, and preventive health awareness.",
