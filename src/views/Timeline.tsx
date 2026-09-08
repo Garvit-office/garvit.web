@@ -6,8 +6,8 @@ import trainerImg from "@/assets/c7a21274-86b5-4cf0-a5f6-b30ea22f87c0.jpg";
 import innovationImg from "@/assets/IMG_7308.jpg";
 import clientRelImg from "@/assets/122670330_4483454891729606_4957190552676086176_n.jpg";
 import beChitkaraImg from "@/assets/download.png";
-import president from "@/assets/IMG_5407.jpg";
-import geeky from "@/assets/IMG_1349.jpeg";
+
+
 
 
 
