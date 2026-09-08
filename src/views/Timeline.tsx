@@ -154,4 +154,4 @@ const Timeline = () => {
   );
 };
 
-export default Timeline; add a new card of software engineer at geekyants benglore from june to present
+export default Timeline;
