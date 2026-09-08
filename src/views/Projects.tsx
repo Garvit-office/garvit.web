@@ -43,12 +43,12 @@ const Projects = () => {
         "Health intelligence",
         "Secure user-scoped data",
       ],
-      liveUrl: "/projects/nutriai",
-      githubUrl: "https://github.com/Garvit-office/NutriAI",
+      liveUrl: "https://github.com/Garvit-office/granny-A-Health-App",
+      githubUrl: "https://github.com/Garvit-office/granny-A-Health-App",
     },
 
     {
-      title: "Leo - Self-Learning AI Agent",
+      title: "Self-Learning AI Agent",
       category: "AI / Full Stack",
       image: aiProject,
       description:
@@ -74,12 +74,12 @@ const Projects = () => {
       techStack: ["Python", "Vosk", "Speech Recognition", "LLM"],
       liveUrl:
         process.env.NODE_ENV === "production"
-          ? "https://garvit-web4.onrender.com/project/ai-personal-assistant"
-          : "http://localhost:3001/project/ai-personal-assistant",
+          ? "https://github.com/Garvit-office/leo"
+          : "https://github.com/Garvit-office/leo",
       githubUrl:
         process.env.NODE_ENV === "production"
-          ? "https://garvit-web4.onrender.com/github/ai-personal-assistant"
-          : "http://localhost:3001/github/ai-personal-assistant",
+          ? "https://github.com/Garvit-office/leo"
+          : "https://github.com/Garvit-office/leo",
     },
 
     {
@@ -97,6 +97,7 @@ const Projects = () => {
         process.env.NODE_ENV === "production"
           ? "https://github.com/Garvit-office/Flego"
           : "http://localhost:3001/github/flego",
+      
     },
 
     {
@@ -108,12 +109,12 @@ const Projects = () => {
       techStack: ["HTML", "CSS", "JavaScript"],
       liveUrl:
         process.env.NODE_ENV === "production"
-          ? "https://garvit-web4.onrender.com/project/lernuage"
-          : "http://localhost:3001/project/lernuage",
+          ? "https://github.com/garvit0080/learnuage"
+          : "https://github.com/garvit0080/learnuage",
       githubUrl:
         process.env.NODE_ENV === "production"
-          ? "https://garvit-web4.onrender.com/github/lernuage"
-          : "http://localhost:3001/github/lernuage",
+          ? "https://github.com/garvit0080/learnuage"
+          : "https://github.com/garvit0080/learnuage",
     },
 
     {
