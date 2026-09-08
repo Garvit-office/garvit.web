@@ -14,10 +14,8 @@ import trainerImg from "@/assets/c7a21274-86b5-4cf0-a5f6-b30ea22f87c0.jpg";
 import innovationImg from "@/assets/IMG_7308.jpg";
 import clientRelImg from "@/assets/122670330_4483454891729606_4957190552676086176_n.jpg";
 import beChitkaraImg from "@/assets/download.png";
-import president from "@/assets/IMG_5407.jpg";
-import geeky from "@/assets/IMG_1349.jpeg";
-
-const presidentImg = president;
+import presidentImg from "@/assets/IMG_5407.jpg";
+import geekyImg from "@/assets/IMG_1349.jpeg";
 
 const Timeline = () => {
 const achievements = [
@@ -27,7 +25,7 @@ icon: Briefcase,
 title: "Software Engineer - GeekyAnts",
 description:
 "Working as a Software Engineer at GeekyAnts, Bengaluru, contributing to software development and building scalable web applications.",
-image: geeky,
+image: geekyImg,
 category: "Experience",
 color: "from-green-400 to-green-600",
 bgGradient: "bg-gradient-to-br from-green-100 to-green-50",
@@ -89,11 +87,11 @@ bgGradient: "bg-gradient-to-br from-indigo-100 to-indigo-50",
 },
 ];
 
-return ( <div className="min-h-screen py-20 px-4"> <div className="container mx-auto max-w-4xl">
+return ( <div className="min-h-screen py-20 px-4"> <div className="container mx-auto max-w-5xl">
 <motion.div
 initial={{ opacity: 0, y: 20 }}
 animate={{ opacity: 1, y: 0 }}
-transition={{ duration: 0.5 }}
+transition={{ duration: 0.6 }}
 > <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center">
 My{" "} <span className="inline-block text-gradient">
 Timeline </span> </h1>
@@ -104,67 +102,68 @@ Timeline </span> </h1>
       </p>
 
       <div className="relative">
-        {/* Timeline line */}
-        <div className="absolute left-8 md:left-1/2 md:-translate-x-1/2 h-full w-1 bg-gradient-to-b from-primary via-accent to-secondary rounded-full" />
+        {/* Timeline center line */}
+        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary via-accent to-secondary" />
 
-        <div className="space-y-8">
-          {achievements.map((achievement, idx) => {
+        <div className="space-y-10">
+          {achievements.map((achievement, index) => {
             const Icon = achievement.icon;
+            const isEven = index % 2 === 0;
 
             return (
               <motion.div
                 key={`${achievement.year}-${achievement.title}`}
                 initial={{
                   opacity: 0,
-                  x: idx % 2 === 0 ? -50 : 50,
+                  x: isEven ? -40 : 40,
                 }}
                 whileInView={{
                   opacity: 1,
                   x: 0,
                 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{
-                  delay: idx * 0.1,
-                  duration: 0.5,
+                viewport={{
+                  once: true,
+                  amount: 0.2,
                 }}
-                className={`relative ${
-                  idx % 2 === 0
-                    ? "md:pr-[50%]"
-                    : "md:pl-[50%]"
-                }`}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                }}
+                className="relative"
               >
                 {/* Timeline icon */}
                 <div
-                  className="absolute left-0 md:left-1/2 md:-translate-x-1/2 -translate-x-1/2 md:translate-x-[-50%] w-16 h-16 glass border-4 border-white dark:border-gray-800 flex items-center justify-center rounded-full shadow-lg z-20"
+                  className="absolute left-8 md:left-1/2 top-8 z-20 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white dark:border-gray-900 shadow-lg"
                   style={{
                     background:
                       "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))",
                   }}
                 >
                   <div
-                    className={`bg-gradient-to-br ${achievement.color} p-3 rounded-full`}
+                    className={`rounded-full bg-gradient-to-br ${achievement.color} p-2.5`}
                   >
-                    <Icon className="h-7 w-7 text-white" />
+                    <Icon className="h-6 w-6 text-white" />
                   </div>
                 </div>
 
-                {/* Achievement card */}
-                <Card
-                  className={`glass p-6 ml-16 md:ml-0 rounded-3xl hover:shadow-xl transition-all duration-300 overflow-hidden group ${
-                    idx % 2 === 0 ? "md:mr-8" : "md:ml-8"
+                {/* Card */}
+                <div
+                  className={`w-full md:w-1/2 ${
+                    isEven
+                      ? "md:pr-10"
+                      : "md:ml-auto md:pl-10"
                   }`}
                 >
-                  {/* Background gradient */}
-                  <div
-                    className={`absolute inset-0 ${achievement.bgGradient} opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none`}
-                  />
+                  <Card className="glass group relative ml-16 overflow-hidden rounded-3xl p-6 shadow-md transition-all duration-300 hover:shadow-2xl md:ml-0">
+                    {/* Hover background */}
+                    <div
+                      className={`pointer-events-none absolute inset-0 ${achievement.bgGradient} opacity-0 transition-opacity duration-300 group-hover:opacity-40`}
+                    />
 
-                  {/* Content */}
-                  <div className="relative z-10">
-                    <div className="flex flex-col md:flex-row md:items-start gap-4">
-                      {/* Achievement image */}
-                      {achievement.image && (
-                        <div className="w-full md:w-1/3 flex-shrink-0">
+                    <div className="relative z-10">
+                      <div className="flex flex-col gap-5 sm:flex-row">
+                        {/* Image */}
+                        <div className="w-full flex-shrink-0 sm:w-36">
                           <img
                             src={
                               typeof achievement.image === "string"
@@ -172,45 +171,40 @@ Timeline </span> </h1>
                                 : achievement.image.src
                             }
                             alt={achievement.title}
-                            className="w-full h-40 md:h-32 lg:h-40 object-cover rounded-xl border border-white/10 dark:border-white/10"
+                            loading="lazy"
+                            className="h-40 w-full rounded-2xl border border-white/10 object-cover shadow-sm sm:h-36"
                           />
                         </div>
-                      )}
 
-                      {/* Achievement content */}
-                      <div
-                        className={`${
-                          achievement.image
-                            ? "w-full md:w-2/3"
-                            : "w-full"
-                        }`}
-                      >
-                        {/* Year */}
-                        <Badge className="mb-3 gradient-accent text-white border-0 rounded-full">
-                          {achievement.year}
-                        </Badge>
+                        {/* Content */}
+                        <div className="min-w-0 flex-1">
+                          {/* Year */}
+                          <Badge className="gradient-accent mb-3 rounded-full border-0 text-white">
+                            {achievement.year}
+                          </Badge>
 
-                        {/* Title */}
-                        <h3 className="text-xl font-bold mb-2">
-                          {achievement.title}
-                        </h3>
+                          {/* Title */}
+                          <h3 className="mb-2 text-xl font-bold leading-tight">
+                            {achievement.title}
+                          </h3>
 
-                        {/* Description */}
-                        <p className="text-muted-foreground text-sm mb-3 leading-relaxed">
-                          {achievement.description}
-                        </p>
+                          {/* Description */}
+                          <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                            {achievement.description}
+                          </p>
 
-                        {/* Category */}
-                        <Badge
-                          variant="outline"
-                          className="text-xs rounded-full"
-                        >
-                          {achievement.category}
-                        </Badge>
+                          {/* Category */}
+                          <Badge
+                            variant="outline"
+                            className="rounded-full text-xs"
+                          >
+                            {achievement.category}
+                          </Badge>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Card>
+                  </Card>
+                </div>
               </motion.div>
             );
           })}
