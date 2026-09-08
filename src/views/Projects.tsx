@@ -16,7 +16,9 @@ import mobileProject from "@/assets/project-mobile.jpg";
 import projectBlogImg from "@/assets/image.png";
 import cardImg from "@/assets/card.png";
 import Image from "next/image";
-import granny from "@assets//IMG_2831.png";
+import granny from "@assets/IMG_2831.png";
+import self from "@assets/Screenshot 2026-09-08 111215.png";
+
 
 const Projects = () => {
   const projects = [
