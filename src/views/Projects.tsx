@@ -20,6 +20,10 @@ import projectBlogImg from "@/assets/image.png";
 import cardImg from "@/assets/card.png";
 import Image from "next/image";
 import granny from "@/assets/IMG_2831.png";
+import florista from "@/assets/florista-removebg-preview.png";
+import chawla from "@/assests/Chawla.zip_-_12-removebg-preview.png";
+import minion from "@/assests/image.png";
+
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -74,7 +78,7 @@ const Projects = () => {
     {
       title: "Chawla Trading Company",
       category: "Web",
-      image: cardImg,
+      image: chawla,
       description:
         "Professional digital platform built for agricultural commercial ventures, seeds, pesticides, and grain commission merchandising.",
       techStack: ["React", "Tailwind CSS", "Node.js"],
@@ -84,7 +88,7 @@ const Projects = () => {
     {
       title: "Chawla Trading Digital Card",
       category: "Web",
-      image: cardImg,
+      image: chawla,
       description:
         "A lightweight digital business card showcasing contact information and quick commercial links for Chawla Trading Company.",
       techStack: ["React", "Vercel"],
@@ -94,7 +98,7 @@ const Projects = () => {
     {
       title: "Vaishnavi Portfolio (Minion Theme)",
       category: "Client Projects",
-      image: webProject,
+      image: minion,
       description:
         "Custom client portfolio website featuring a creative minion theme design, smooth animations, and a fully responsive layout.",
       techStack: ["React", "Tailwind CSS", "Vercel"],
