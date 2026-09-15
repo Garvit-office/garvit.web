@@ -23,6 +23,7 @@ import granny from "@/assets/IMG_2831.png";
 import florista from "@/assets/florista-removebg-preview.png";
 import chawla from "@/assests/Chawla.zip_-_12-removebg-preview.png";
 import minion from "@/assests/image.png";
+import veena from "@/assests/veena.png";
 
 
 const Projects = () => {
@@ -108,7 +109,7 @@ const Projects = () => {
     {
       title: "Veena Portfolio Sample",
       category: "Client Projects",
-      image: webProject,
+      image: veena,
       description:
         "Modern professional portfolio sample built for a client to seamlessly showcase creative works, skills, and projects.",
       techStack: ["React", "JavaScript", "Tailwind CSS"],
