@@ -86,6 +86,50 @@ const Projects = () => {
     },
 
     {
+      title: "Chawla Trading Company",
+      category: "Commercial / Business Web",
+      image: cardImg,
+      description:
+        "Professional digital platform built for agricultural commercial ventures, seeds, pesticides, and grain commission merchandising.",
+      techStack: ["React", "Tailwind CSS", "Node.js"],
+      liveUrl: "https://chawlatradingcompany.vercel.app/",
+      githubUrl: "https://github.com/Garvit-office/Chawlatradingcompany",
+    },
+
+    {
+      title: "Chawla Trading Digital Card",
+      category: "Web / Digital Card",
+      image: cardImg,
+      description:
+        "A lightweight digital business card showcasing contact information and quick commercial links for Chawla Trading Company.",
+      techStack: ["React", "Vercel"],
+      liveUrl: "https://chawlatradingcomapany-card.vercel.app/",
+      githubUrl: "https://github.com/Garvit-office/Chawlatradingcompany",
+    },
+
+    {
+      title: "Vaishnavi Portfolio (Minion Theme)",
+      category: "Client Project / Web Design",
+      image: webProject,
+      description:
+        "A custom client portfolio website featuring a fun minion theme design, smooth animations, and a responsive layout.",
+      techStack: ["React", "Tailwind CSS", "Vercel"],
+      liveUrl: "https://vaishnavi-web-ten.vercel.app/",
+      githubUrl: "https://github.com/Garvit-office/vaishnavi.web",
+    },
+
+    {
+      title: "Veena Portfolio Sample",
+      category: "Client Project / Portfolio",
+      image: webProject,
+      description:
+        "A modern, professional portfolio sample built for a client to showcase their creative works, skills, and projects seamlessly.",
+      techStack: ["React", "JavaScript", "Tailwind CSS"],
+      liveUrl: "https://veena-omega.vercel.app/",
+      githubUrl: "https://github.com/Garvit-office/veena",
+    },
+
+    {
       title: "Flego - Travel Blogging Platform",
       category: "MERN Stack",
       image: webProject,
@@ -100,7 +144,7 @@ const Projects = () => {
         process.env.NODE_ENV === "production"
           ? "https://github.com/Garvit-office/Flego"
           : "http://localhost:3001/github/flego",
-      
+     
     },
 
     {
