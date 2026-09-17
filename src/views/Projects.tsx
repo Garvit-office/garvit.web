@@ -21,9 +21,11 @@ import cardImg from "@/assets/card.png";
 import Image from "next/image";
 import granny from "@/assets/IMG_2831.png";
 import florista from "@/assets/florista-removebg-preview.png";
-import chawla from "@/assets/Chawla.zip_-_12-removebg-preview.png";
+import chawla from "@/assets/chawla.png";
 import minion from "@/assets/image.png";
 import veena from "@/assets/veena.png";
+import chawlacard from "@/assets/chawla-card.png";
+import garvitcard from "@/assets/garvit-card.png";
 
 
 const Projects = () => {
@@ -89,7 +91,7 @@ const Projects = () => {
     {
       title: "Chawla Trading Digital Card",
       category: "Web",
-      image: chawla,
+      image: chawlacard,
       description:
         "A lightweight digital business card showcasing contact information and quick commercial links for Chawla Trading Company.",
       techStack: ["React", "Vercel"],
@@ -139,7 +141,7 @@ const Projects = () => {
     {
       title: "garvit.card",
       category: "Web",
-      image: cardImg,
+      image: garvitcard,
       description:
         "A lightweight personal card website showcasing professional contact information and quick links through a minimal interface.",
       techStack: ["React", "Vercel"],
