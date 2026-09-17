@@ -130,7 +130,7 @@ const Home = () => {
                     <Github className="h-4 md:h-5 w-4 md:w-5" />
                   </Button>
                 </a>
-                <a href="https://linkedin.com/in/garvit-chawla" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+                <a href="https://www.linkedin.com/in/garviitchawla/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
                   <Button size="icon" variant="outline" className="rounded-full h-10 w-10 md:h-12 md:w-12 border-2 hover:border-accent hover:text-primary transition-all active:scale-95">
                     <Linkedin className="h-4 md:h-5 w-4 md:w-5" />
                   </Button>
