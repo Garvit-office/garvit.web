@@ -11,7 +11,6 @@ import {
   ArrowRight, 
   Code, 
   Zap, 
-  Lightbulb, 
   LogOut, 
   Download,
   Terminal,
@@ -24,7 +23,6 @@ import {
   BookOpen
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { Typewriter } from "@/components/Typewriter";
 import FeedSection from "@/components/Feed/FeedSection";
 import { useState, useEffect } from "react";
@@ -171,8 +169,8 @@ const Home = () => {
                   </Card>
                 </Link>
 
-                {/* Card 2 - Innovation / Thesis Focus */}
-                <Link href="/timeline" className="w-full block group">
+                {/* Card 2 - Innovation / Thesis Focus (Links directly to /thesis) */}
+                <Link href="/thesis" className="w-full block group">
                   <Card className="glass p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 border-accent/30 group-hover:border-accent/80 transition-all duration-300 w-full cursor-pointer group-hover:-translate-y-1 group-hover:shadow-lg">
                     <div className="flex items-start gap-3 md:gap-4">
                       <div className="p-2 md:p-3 bg-gradient-to-br from-accent to-primary rounded-lg md:rounded-2xl shrink-0 group-hover:scale-105 transition-transform">
@@ -267,7 +265,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* GitHub Contributions Live Chart Section (Moved above FeedSection) */}
+      {/* GitHub Contributions Live Chart Section */}
       <section className="py-12 md:py-16 px-3 md:px-4 border-t border-border bg-muted/5">
         <div className="container mx-auto w-full max-w-full md:max-w-5xl px-0">
           <motion.div
