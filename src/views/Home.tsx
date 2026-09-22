@@ -20,7 +20,8 @@ import {
   Copy,
   ExternalLink,
   Activity,
-  Sparkles
+  Sparkles,
+  BookOpen
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -106,7 +107,7 @@ const Home = () => {
               </h1>
               
               <p className="text-base md:text-xl text-muted-foreground mb-6 md:mb-8 max-w-xl leading-relaxed">
-                Full Stack Developer • AI Enthusiast • Builder of scalable web experiences
+                Full Stack Developer • AI Researcher • Builder of scalable web & intelligent systems
               </p>
               
               <div className="flex flex-wrap gap-3 md:gap-4 mb-6 md:mb-8">
@@ -170,19 +171,19 @@ const Home = () => {
                   </Card>
                 </Link>
 
-                {/* Card 2 - Innovation */}
+                {/* Card 2 - Innovation / Thesis Focus */}
                 <Link href="/timeline" className="w-full block group">
                   <Card className="glass p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 border-accent/30 group-hover:border-accent/80 transition-all duration-300 w-full cursor-pointer group-hover:-translate-y-1 group-hover:shadow-lg">
                     <div className="flex items-start gap-3 md:gap-4">
                       <div className="p-2 md:p-3 bg-gradient-to-br from-accent to-primary rounded-lg md:rounded-2xl shrink-0 group-hover:scale-105 transition-transform">
-                        <Lightbulb className="h-5 md:h-6 w-5 md:w-6 text-white" />
+                        <BookOpen className="h-5 md:h-6 w-5 md:w-6 text-white" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <h3 className="font-bold text-base md:text-lg mb-1 flex items-center justify-between">
-                          <span>Problem Solver</span>
-                          <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
+                          <span>Research & Thesis</span>
+                          <Badge variant="outline" className="text-[10px] font-mono border-primary/40 text-primary">Active Writing</Badge>
                         </h3>
-                        <p className="text-xs md:text-sm text-muted-foreground">Turning ideas into practical, polished experiences</p>
+                        <p className="text-xs md:text-sm text-muted-foreground">Authoring academic papers & architectural evaluations</p>
                       </div>
                     </div>
                   </Card>
@@ -231,8 +232,8 @@ const Home = () => {
 
                   <div className="space-y-1.5 text-[11px] text-muted-foreground">
                     <p className="flex items-center justify-between">
-                      <span><span className="text-foreground font-semibold">education:</span> B.E. Computer Science</span>
-                      <span className="text-[10px] opacity-75">2023–2027</span>
+                      <span><span className="text-foreground font-semibold">focus:</span> Thesis & Research Paper</span>
+                      <span className="text-[10px] text-primary font-bold">IN_PROGRESS</span>
                     </p>
                     <p>
                       <span className="text-foreground font-semibold">agent_core:</span> LangGraph Memory (Mem0)
@@ -266,9 +267,7 @@ const Home = () => {
         </div>
       </div>
 
-      <FeedSection />
-
-      {/* GitHub Contributions Live Chart Section */}
+      {/* GitHub Contributions Live Chart Section (Moved above FeedSection) */}
       <section className="py-12 md:py-16 px-3 md:px-4 border-t border-border bg-muted/5">
         <div className="container mx-auto w-full max-w-full md:max-w-5xl px-0">
           <motion.div
@@ -327,6 +326,9 @@ const Home = () => {
         </div>
       </section>
 
+      {/* LinkedIn Posts / Feed Section */}
+      <FeedSection />
+
       {/* About Section */}
       <section className="py-12 md:py-20 px-3 md:px-4 border-t border-border">
         <div className="container mx-auto w-full max-w-full md:max-w-4xl px-0">
@@ -343,7 +345,7 @@ const Home = () => {
             <Card className="glass p-4 md:p-8 rounded-2xl md:rounded-3xl shadow-sm">
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
                 I'm Garvit Chawla, a computer science student at Chitkara University focused on full stack development,
-                AI/ML, and building practical digital products.
+                AI/ML, building practical digital products, and conducting academic research.
               </p>
               
               <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
